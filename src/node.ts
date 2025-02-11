@@ -1,7 +1,7 @@
 import { fetchData,fetchLatestData } from "./services/accessData";
 import { _IAnedya_GetData_Req, _IAnedya_GetLatestData_Req } from "./models";
 import { NewClient } from "./client";
-import { IConfigHeaders } from "./commoni";
+import { IConfigHeaders } from "./common_i";
 
 export interface INode {
   getNodeId(): string;

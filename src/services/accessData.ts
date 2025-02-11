@@ -4,7 +4,8 @@ import {
   IAnedya_GetData_Resp,
   IAnedya_GetLatestData_Resp,
 } from "../models";
-import { IConfigHeaders, _ITimeSeriesData } from "../commoni";
+import { anedyaHashing } from "../anedya_hashing";
+import { IConfigHeaders, _ITimeSeriesData } from "../common_i";
 
 // ------------------------------ Get Data -----------------------------
 interface _IAnedya_GetData_Resp {
@@ -34,46 +35,8 @@ export const fetchData = async (
     limit: accessDataReq.limit,
     order: accessDataReq.order,
   };
-
-  const encoder = new TextEncoder();
-  const bodyBytes = encoder.encode(JSON.stringify(requestData));
-
-  // Create SHA-256 hash of the bodyBytes
-  const bodyHashBuffer = await crypto.subtle.digest("SHA-256", bodyBytes);
-  const bodyHashBytes = new Uint8Array(bodyHashBuffer);
-
   const currentTime = Math.floor(Date.now() / 1000);
-  const timeBytes = new Uint8Array(8);
-  new DataView(timeBytes.buffer).setBigUint64(0, BigInt(currentTime), false); // Big-endian
-
-  // Combine [bodyHashBytes, timeBytes, signatureVersionBytes, tokenBytes]
-  const combinedBytes = new Uint8Array(
-    bodyHashBytes.length +
-      timeBytes.length +
-      configHeaders.signatureVersionBytes.length +
-      configHeaders.tokenBytes.length
-  );
-  combinedBytes.set(bodyHashBytes, 0);
-  combinedBytes.set(timeBytes, bodyHashBytes.length);
-  combinedBytes.set(
-    configHeaders.signatureVersionBytes,
-    bodyHashBytes.length + timeBytes.length
-  );
-  combinedBytes.set(
-    configHeaders.tokenBytes,
-    bodyHashBytes.length +
-      timeBytes.length +
-      configHeaders.signatureVersionBytes.length
-  );
-
-  // Compute SHA-256 hash of combinedBytes
-  const combinedHashBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    combinedBytes
-  );
-  const combinedHash = Array.from(new Uint8Array(combinedHashBuffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+  const combinedHash = await anedyaHashing(requestData,configHeaders,currentTime);
 
   try {
     const reqHeaders = {
@@ -157,47 +120,8 @@ export const fetchLatestData = async (
     nodes: nodes,
     variable: accessDataReq.variable,
   };
-
-  const encoder = new TextEncoder();
-  const bodyBytes = encoder.encode(JSON.stringify(requestData));
-
-  // Create SHA-256 hash of the bodyBytes
-  const bodyHashBuffer = await crypto.subtle.digest("SHA-256", bodyBytes);
-  const bodyHashBytes = new Uint8Array(bodyHashBuffer);
-
   const currentTime = Math.floor(Date.now() / 1000);
-  const timeBytes = new Uint8Array(8);
-  new DataView(timeBytes.buffer).setBigUint64(0, BigInt(currentTime), false); // Big-endian
-
-  // Combine [bodyHashBytes, timeBytes, signatureVersionBytes, tokenBytes]
-  const combinedBytes = new Uint8Array(
-    bodyHashBytes.length +
-      timeBytes.length +
-      configHeaders.signatureVersionBytes.length +
-      configHeaders.tokenBytes.length
-  );
-  combinedBytes.set(bodyHashBytes, 0);
-  combinedBytes.set(timeBytes, bodyHashBytes.length);
-  combinedBytes.set(
-    configHeaders.signatureVersionBytes,
-    bodyHashBytes.length + timeBytes.length
-  );
-  combinedBytes.set(
-    configHeaders.tokenBytes,
-    bodyHashBytes.length +
-      timeBytes.length +
-      configHeaders.signatureVersionBytes.length
-  );
-
-  // Compute SHA-256 hash of combinedBytes
-  const combinedHashBuffer = await crypto.subtle.digest(
-    "SHA-256",
-    combinedBytes
-  );
-  const combinedHash = Array.from(new Uint8Array(combinedHashBuffer))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-
+  const combinedHash = await anedyaHashing(requestData,configHeaders,currentTime);
   try {
     const reqHeaders = {
       Authorization: configHeaders.authorizationMode,
@@ -234,7 +158,7 @@ export const fetchLatestData = async (
         data = null;
         res.isDataAvailable = false;
         return res;
-      } 
+      }
       if (nodes.length === 1) {
         data = data[nodes.toString()];
         res.data = data;
