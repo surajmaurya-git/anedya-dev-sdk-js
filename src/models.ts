@@ -1,4 +1,4 @@
-import {_ITimeSeriesData} from "./icommon";
+import {_ITimeSeriesData} from "./commoni";
 
 // ============================== Data Access ==============================
 // ------------ Get Data ------------

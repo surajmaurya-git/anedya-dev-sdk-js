@@ -4,7 +4,7 @@ import {
   IAnedya_GetData_Resp,
   IAnedya_GetLatestData_Resp,
 } from "../models";
-import { IConfigHeaders, _ITimeSeriesData } from "../icommon";
+import { IConfigHeaders, _ITimeSeriesData } from "../commoni";
 
 // ------------------------------ Get Data -----------------------------
 interface _IAnedya_GetData_Resp {
