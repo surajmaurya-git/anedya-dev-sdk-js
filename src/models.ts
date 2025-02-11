@@ -1,115 +1,87 @@
-export interface _dataResponse {
-  success: boolean;
-  data: Record<string, any>;
-}
-// ============================== Data Access ==============================
-export interface _timeSeriesData {
-  [key: string]: object[]; // Adjust `object` to the exact type of elements in the array if possible
-}
+import {_ITimeSeriesData} from "./icommon";
 
-// ------------ Access Data ------------
-export interface Anedya_AccessDataRequest {
+// ============================== Data Access ==============================
+// ------------ Get Data ------------
+export interface _IAnedya_GetData_Req {
   variable: string;
   from: number;
   to: number;
   limit: number;
-  order: string;
+  order: "asc" | "desc";
 }
 
-export interface Anedya_AccessDataResponse {
-  isSuccess: boolean;
-  data: _timeSeriesData;
-  errorcode: number;
-  error: string;
-}
-
-export class Anedya_AccessData {
-  request: Anedya_AccessDataRequest;
-  response: Anedya_AccessDataResponse;
-
-  constructor(request?: Partial<Anedya_AccessDataRequest>) {
-    // Initialize with default values
-    this.request = {
-      variable: "",
-      from: 0,
-      to: 0,
-      limit: 0,
-      order: "",
-      ...request, // Merge with provided request values
-    };
-
-    this.response = {
-      isSuccess: false,
-      data: {},
-      errorcode: 0,
-      error: "",
-    };
+export class Anedya_GetData_Req implements _IAnedya_GetData_Req {
+  constructor(
+    public variable: string,
+    public from: number,
+    public to: number,
+    public limit: number = 10000,
+    public order: "asc" | "desc" = "desc",
+  ) {
+    if (order !== "asc" && order !== "desc") {
+      throw new Error("Invalid order value. It should be either 'asc' or 'desc'.");
+    }
+    if (limit < 1) {
+      throw new Error("Invalid limit value. It should be at least 1.");
+    }
+    if (from > to) {
+      throw new Error("Invalid time range. 'from' should be less than or equal to 'to'.");
+    }
   }
 }
 
-
-// ------------ Access latest data ------------
-// export const DATA_TYPE_FLOAT: string = "float";
-// export const DATA_TYPE_GEO_COORDINATES: string = "geo";
-export class Anedya_AccessLatestData {
-  request: {
-    variable: string;
-  } = {
-    variable: "",
-  };
-
-  response: {
-    isSuccess: boolean;
-    data: Record<string, any>;
-    errorcode: number;
-    error: string;
-  } = {
-    isSuccess: false,
-    data: {},
-    errorcode: 0,
-    error: "",
-  };
-  constructor(variable: string) {
-    this.request = {
-      variable: variable,
-    };
+export interface IAnedya_GetData_Resp {
+  isSuccess?: boolean;
+  isDataAvailable?: boolean;
+  data?: _ITimeSeriesData | null;
+  count?: number;
+  startTime?: number;
+  endTime?: number;
+  error?: string;
+}
+export class Anedya_GetData_Resp implements IAnedya_GetData_Resp {
+  constructor(
+    public isSuccess: boolean=false,
+    public isDataAvailable: boolean=false,
+    public data: _ITimeSeriesData | null,
+    public error: string,
+    public count: number,
+    public startTime: number,
+    public endTime: number,
+  ) {
+    this.isSuccess = isSuccess;
+    this.isDataAvailable = isDataAvailable;
+    this.data = data;
+    this.count = count;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.error = error;
   }
 }
 
-// ============================== Command Section ==============================
-// ----------- Command Types -----------
-export const COMMAND_TYPE_STRING: string = "string";
-export const COMMAND_TYPE_BINARY: string = "binary";
+// ------------ Get Latest Data ------------
+export interface _IAnedya_GetLatestData_Req {
+  variable: string;
+}
 
-export class Command {
-  request: {
-    commandName: string;
-    data: string;
-    dataType: string;
-    nodeID: string;
-    expiryTime_ms: number;
-  } = {
-    commandName: "",
-    data: "",
-    dataType: "",
-    nodeID: "",
-    expiryTime_ms: -1,
-  };
-  response: {
-    isSuccess: boolean;
-    success: boolean;
-    error: string;
-    errorcode: number;
-    commandID: string;
-  } = {
-    isSuccess: false,
-    success: false,
-    error: "",
-    errorcode: 0,
-    commandID: "",
-  };
 
-  constructor(request: any) {
-    this.request = request;
+export interface IAnedya_GetLatestData_Resp {
+  isSuccess?: boolean;
+  isDataAvailable?: boolean;
+  data?: _ITimeSeriesData | null;
+  error?: string;
+}
+
+export class Anedya_GetlatestData_Resp implements IAnedya_GetLatestData_Resp {
+  constructor(
+    public isSuccess: boolean = false,
+    public isDataAvailable: boolean=false,
+    public data: _ITimeSeriesData | null,
+    public error: string
+  ) {
+    this.isSuccess = isSuccess;
+    this.isDataAvailable = isDataAvailable;
+    this.data = data;
+    this.error = error;
   }
 }

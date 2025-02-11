@@ -1,18 +1,12 @@
 import { Anedya } from "./anedya";
 
 import {
-  Anedya_AccessData,
-  Anedya_AccessLatestData,
-  Command,
-  COMMAND_TYPE_BINARY,
-  COMMAND_TYPE_STRING,
+  Anedya_GetData_Req,
+  Anedya_GetData_Resp,
 } from "./models";
 
 export {
   Anedya,
-  Anedya_AccessData,
-  Anedya_AccessLatestData,
-  Command,
-  COMMAND_TYPE_STRING,
-  COMMAND_TYPE_BINARY,
+  Anedya_GetData_Req,
+  Anedya_GetData_Resp,
 };

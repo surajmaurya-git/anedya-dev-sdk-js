@@ -5,3 +5,7 @@ export interface IConfigHeaders {
   signatureVersionBytes: Uint8Array;
   authorizationMode: string;
 }
+
+export interface _ITimeSeriesData {
+  [key: string]: object[]; // Adjust `object` to the exact type of elements in the array if possible
+}

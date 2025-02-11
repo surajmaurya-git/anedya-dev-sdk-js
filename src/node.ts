@@ -1,20 +1,14 @@
-import { fetchLatestData } from "./DataAccess/fetchLatestData";
-import { fetchData } from "./DataAccess/fetchData";
-import { fetchSnapshot } from "./DataAccess/fetchSnapshot";
-import { sendCommand } from "./Commands/commands";
-import { Anedya_AccessData, Anedya_AccessLatestData, Command } from "./models";
+import { fetchData,fetchLatestData } from "./services/accessData";
+import { _IAnedya_GetData_Req, _IAnedya_GetLatestData_Req } from "./models";
 import { NewClient } from "./client";
-import { IConfigHeaders } from "./interface";
+import { IConfigHeaders } from "./icommon";
 
 export interface INode {
   getNodeId(): string;
-  getData(accessDataReq: Anedya_AccessData): Promise<any>;
-  getLatestData(variable: string): Promise<any>;
-  getSnapshot(variable: string, timestamp_sec: number): Promise<any>;
-  sendCommand(command: Command): Promise<any>;
+  getData(accessDataReq: _IAnedya_GetData_Req): Promise<any>;
 }
 
-export class NewNode {
+export class NewNode implements INode {
   #nodeId: string; // Define as a private field with #
   #baseUrl: string;
   #configHeaders: IConfigHeaders;
@@ -36,7 +30,7 @@ export class NewNode {
     return this.#nodeId;
   }
 
-  async getData(accessDataReq: Anedya_AccessData): Promise<any> {
+  async getData(accessDataReq: _IAnedya_GetData_Req): Promise<any> {
     return await fetchData(
       this.#baseUrl,
       this.#configHeaders,
@@ -44,24 +38,16 @@ export class NewNode {
       accessDataReq
     );
   }
-  async getLatestData(variable: string): Promise<any> {}
+  async getlatestData(variableIdentifier:string) {
+    const accessDataReq={
+      variable:variableIdentifier
+    }
+    return await fetchLatestData(
+      this.#baseUrl,
+      this.#configHeaders,
+      [this.#nodeId],
+      accessDataReq
+    );
+  }
 
-  // async getLatestData(variable: string): Promise<any> {
-  //   if (this.apiKey.trim() === "") {
-  //     throw new Error("No API key provided");
-  //   }
-  //   return await fetchLatestData(this.baseUrl, this.apiKey, [this.nodeId], variable);
-  // }
-  // async getSnapshot(variable: string, timestamp_sec: number): Promise<any> {
-  //   if (this.apiKey.trim() === "") {
-  //     throw new Error("No API key provided");
-  //   }
-  //   return await fetchSnapshot(this.baseUrl, this.apiKey,[this.nodeId], variable, timestamp_sec);
-  // }
-  // async sendCommand(command: Command): Promise<any> {
-  //   if (this.apiKey.trim() === "") {
-  //     throw new Error("No API key provided");
-  //   }
-  //   return await sendCommand(this.baseUrl, this.apiKey, this.nodeId,command);
-  // }
 }

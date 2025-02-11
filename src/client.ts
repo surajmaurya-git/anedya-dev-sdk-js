@@ -1,10 +1,13 @@
 import { NewConfig } from "./config";
-import { fetchNodeList } from "./NodeManagement/getNodeList";
 
-interface IApiConfig {
+export interface IClient {
+  tokenId: string;
+  tokenBytes: Uint8Array;
+  signatureVersionBytes: Uint8Array;
+  signatureVersion: string;
+  authorizationMode: string;
   baseUrl: string;
 }
-export interface IClient {}
 
 export class NewClient implements IClient {
   tokenId: string;
@@ -22,12 +25,4 @@ export class NewClient implements IClient {
     this.tokenBytes = new TextEncoder().encode(token);
     this.baseUrl = config.baseUrl;
   }
-
-  // async getNodeList(
-  //   limit: number,
-  //   offset: number,
-  //   order: string
-  // ): Promise<any> {
-  //   return await fetchNodeList(this.baseUrl, this.apiKey, limit, offset, order);
-  // }
 }

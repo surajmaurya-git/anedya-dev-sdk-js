@@ -2,3 +2,7 @@ node_modules
 dist
 development
 previous
+development.js
+
+
+.vscode
