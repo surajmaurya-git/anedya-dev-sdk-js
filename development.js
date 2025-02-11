@@ -1,5 +1,4 @@
-const { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp} = require("./dist/index");
-const { Anedya_GetlatestData_Resp } = require("./dist/models");
+const { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp,Anedya_GetlatestData_Resp} = require("./dist/index");
 
 const tokenId="4Sg4IPDAxYAcVVl1FfS6XbCO";
 const token="FseKcRl04ieP7fjRprMtenrGuxcIZaoqKPXHB4yX1o8LgqrrpTCUf0J2xUSQGHP8";
