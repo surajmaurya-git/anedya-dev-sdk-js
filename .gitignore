@@ -3,6 +3,7 @@ dist
 development
 previous
 development.js
+development.ts
 
 
 .vscode

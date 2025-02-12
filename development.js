@@ -2,11 +2,13 @@ const { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp,Anedya_GetlatestData_Res
 
 const tokenId="4Sg4IPDAxYAcVVl1FfS6XbCO";
 const token="FseKcRl04ieP7fjRprMtenrGuxcIZaoqKPXHB4yX1o8LgqrrpTCUf0J2xUSQGHP8";
-const NodeId="0193e245-d735-7347-99d4-c0243ed11dfa"
+const NodeId="0193e245-d735-7347-99d4-c0243ed11dfa";
+
+const testMode=true; ////make it true, for sandbox
 
 // Initialize the Anedya client
 let anedya = new Anedya();
-let connect_config = anedya.NewConfig(tokenId,token,true);  // create config 
+let connect_config = anedya.NewConfig(tokenId,token,testMode);  // create config 
 let client = anedya.NewClient(connect_config); // create anedya client
 
 let node_1 = anedya.NewNode(client, NodeId);  // create node client 
@@ -21,6 +23,7 @@ const variableIdentifier="temperature";
     getData_req.variable=variableIdentifier;
     getData_req.from=delayed_24_hours;
     getData_req.to=currentTime;
+    getData_req.limit=10;
     
     let getData_resp=new Anedya_GetData_Resp;
     

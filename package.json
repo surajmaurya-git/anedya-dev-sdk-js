@@ -1,6 +1,6 @@
 {
-  "name": "anedya-sdk",
-  "version": "0.0.1",
+  "name": "my-first-npm-sdk",
+  "version": "0.0.9",
   "author": "",
   "license": "ISC",
   "description": "",
@@ -72,9 +72,9 @@
     "signal-exit": "^4.1.0",
     "source-map": "^0.8.0-beta.0",
     "string-width": "^5.1.2",
-    "string-width-cjs": "^4.2.3",
+    "string-width-cjs": "^5.1.1",
     "strip-ansi": "^7.1.0",
-    "strip-ansi-cjs": "^6.0.1",
+    "strip-ansi-cjs": "^8.0.0",
     "sucrase": "^3.35.0",
     "thenify": "^3.3.1",
     "thenify-all": "^1.6.0",
@@ -87,7 +87,19 @@
     "whatwg-url": "^7.1.0",
     "which": "^2.0.2",
     "wrap-ansi": "^8.1.0",
-    "wrap-ansi-cjs": "^7.0.0"
+    "wrap-ansi-cjs": "^8.0.0"
   },
-  "keywords": []
+  "keywords": [
+    "IoT",
+    "Anedya",
+    "SDK",
+    "JavaScript",
+    "TypeScript",
+    "commands",
+    "data-access",
+    "cloud",
+    "device-management",
+    "API",
+    "browser"
+  ]
 }
