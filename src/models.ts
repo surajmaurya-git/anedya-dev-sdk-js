@@ -9,7 +9,9 @@ export interface _IAnedya_GetData_Req {
   limit: number;
   order: "asc" | "desc";
 }
-
+/**
+ * Request object for fetching data.
+ */
 export class Anedya_GetData_Req implements _IAnedya_GetData_Req {
   constructor(
     public variable: string,
@@ -39,6 +41,9 @@ export interface IAnedya_GetData_Resp {
   endTime?: number;
   error?: string;
 }
+/**
+ * Response object for fetching data.
+ */
 export class Anedya_GetData_Resp implements IAnedya_GetData_Resp {
   constructor(
     public isSuccess: boolean=false,
@@ -71,7 +76,9 @@ export interface IAnedya_GetLatestData_Resp {
   data?: _ITimeSeriesData | null;
   error?: string;
 }
-
+/**
+ * Response object for fetching the latest data.
+ */
 export class Anedya_GetlatestData_Resp implements IAnedya_GetLatestData_Resp {
   constructor(
     public isSuccess: boolean = false,

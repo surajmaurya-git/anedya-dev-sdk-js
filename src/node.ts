@@ -26,10 +26,24 @@ export class NewNode implements INode {
     };
   }
 
+  /**
+   * Returns the node ID of the node.
+   * @returns {string} The node ID of the node.
+   */
   getNodeId(): string {
     return this.#nodeId;
   }
 
+  /**
+   * Fetches data from the node based on the given request.
+   * @param {Object} accessDataReq - The request object for fetching data.
+   * @param {string} accessDataReq.variable - The variable identifier name to fetch data for.
+   * @param {number} accessDataReq.from - The start time of the time range to fetch data from.
+   * @param {number} accessDataReq.to - The end time of the time range to fetch data from.
+   * @param {number} [accessDataReq.limit=10000] - The maximum number of data points to return.
+   * @param {"asc"|"desc"} [accessDataReq.order="desc"] - The order of the data points to return.
+   * @returns {Promise<any>} A promise that resolves with the response data.
+   */
   async getData(accessDataReq: _IAnedya_GetData_Req): Promise<any> {
     return await fetchData(
       this.#baseUrl,
@@ -38,6 +52,11 @@ export class NewNode implements INode {
       accessDataReq
     );
   }
+  /**
+   * Fetches the latest data point from the node based on the given variable identifier.
+   * @param {string} variableIdentifier - The variable identifier name to fetch the latest data point for.
+   * @returns {Promise<any>} A promise that resolves with the response data.
+   */
   async getlatestData(variableIdentifier:string) {
     const accessDataReq={
       variable:variableIdentifier

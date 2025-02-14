@@ -27,8 +27,8 @@ try{
 //======================= Get Data =========================================
 (async () => {
   try {
-    const currentTime = Math.floor(Date.now() / 1000); // time in seconds
-    const delayed_24_hours = currentTime - 86400;
+    const currentTime = Math.floor(Date.now()); // time in milli seconds
+    const delayed_24_hours = currentTime - 86400000;
     let getData_req=new Anedya_GetData_Req;
     getData_req.variable=variableIdentifier;
     getData_req.from=delayed_24_hours;

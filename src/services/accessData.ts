@@ -30,8 +30,8 @@ export const fetchData = async (
   const requestData = {
     nodes: nodes,
     variable: accessDataReq.variable,
-    from: accessDataReq.from,
-    to: accessDataReq.to,
+    from: Math.floor(accessDataReq.from/1000), 
+    to: Math.floor(accessDataReq.to/1000),   
     limit: accessDataReq.limit,
     order: accessDataReq.order,
   };

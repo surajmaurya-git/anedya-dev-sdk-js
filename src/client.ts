@@ -9,15 +9,21 @@ export interface IClient {
   baseUrl: string;
 }
 
+/**
+ * Class representing a anedya client with configuration details.
+ */
 export class NewClient implements IClient {
   tokenId: string;
   tokenBytes: Uint8Array;
   signatureVersionBytes: Uint8Array;
   signatureVersion: string = "v1";
   authorizationMode: string = "ANEDYASIGV1";
-
   baseUrl: string;
 
+  /**
+   * Constructs a new instance of NewClient.
+   * @param {NewConfig} config - The configuration object.
+   */
   constructor(config: NewConfig) {
     const { token, tokenId } = config;
     this.tokenId = tokenId;
