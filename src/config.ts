@@ -1,11 +1,12 @@
-export const apiConfig = {
- 
-};
-
+/*
+ * This file contains the configuration details for the Anedya client.
+ * It exports an interface (INewConfig) and a class (NewConfig) that are used
+ * to represent the configuration data.
+ */
 export interface INewConfig {
   tokenId: string;
   token: string;
-  testMode?: boolean;
+  baseUrl:string
 }
 
 export class NewConfig implements INewConfig {
@@ -25,7 +26,7 @@ export class NewConfig implements INewConfig {
     this.tokenId = tokenId;
     this.token = token;
     if(testMode){
-      this.baseUrl='https://stageapi.anedya.io/v1'
+      this.baseUrl='https://stageapi.anedya.io/v1' 
     }else{
       this.baseUrl='https://api.anedya.io/v1'
     }

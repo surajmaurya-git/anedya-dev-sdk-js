@@ -1,3 +1,6 @@
+/*
+File contains the class NewClient which is used to create an instance of a anedya client.
+*/
 import { NewConfig } from "./config";
 
 export interface IClient {
@@ -27,7 +30,9 @@ export class NewClient implements IClient {
   constructor(config: NewConfig) {
     const { token, tokenId } = config;
     this.tokenId = tokenId;
-    this.signatureVersionBytes = new TextEncoder().encode(this.signatureVersion);
+    this.signatureVersionBytes = new TextEncoder().encode(
+      this.signatureVersion
+    );
     this.tokenBytes = new TextEncoder().encode(token);
     this.baseUrl = config.baseUrl;
   }

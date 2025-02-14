@@ -1,4 +1,4 @@
-
+import { IConfigHeaders } from "./common_i";
 
 export const anedyaHashing = async (requestData: any, configHeaders: IConfigHeaders, currentTime: number): Promise<any> => {
     try {

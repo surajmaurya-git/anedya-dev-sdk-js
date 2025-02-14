@@ -1,8 +1,14 @@
+/* 
+ * This file contains the models for the Anedya SDK.
+ * It exports interfaces and classes that are used to represent the data
+ * and requests for the Anedya API.
+ *
+*/
 import {_ITimeSeriesData} from "./common_i";
 
 // ============================== Data Access ==============================
 // ------------ Get Data ------------
-export interface _IAnedya_GetData_Req {
+export interface _IAnedya_GetData_Req_Obj {
   variable: string;
   from: number;
   to: number;
@@ -12,7 +18,7 @@ export interface _IAnedya_GetData_Req {
 /**
  * Request object for fetching data.
  */
-export class Anedya_GetData_Req implements _IAnedya_GetData_Req {
+export class Anedya_GetData_Req_Obj implements _IAnedya_GetData_Req_Obj {
   constructor(
     public variable: string,
     public from: number,
@@ -32,7 +38,7 @@ export class Anedya_GetData_Req implements _IAnedya_GetData_Req {
   }
 }
 
-export interface IAnedya_GetData_Resp {
+export interface IAnedya_GetData_Resp_Obj {
   isSuccess?: boolean;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
@@ -44,7 +50,7 @@ export interface IAnedya_GetData_Resp {
 /**
  * Response object for fetching data.
  */
-export class Anedya_GetData_Resp implements IAnedya_GetData_Resp {
+export class Anedya_GetData_Resp_Obj implements IAnedya_GetData_Resp_Obj {
   constructor(
     public isSuccess: boolean=false,
     public isDataAvailable: boolean=false,
@@ -65,12 +71,12 @@ export class Anedya_GetData_Resp implements IAnedya_GetData_Resp {
 }
 
 // ------------ Get Latest Data ------------
-export interface _IAnedya_GetLatestData_Req {
+export interface _IAnedya_GetLatestData_Req_Obj {
   variable: string;
 }
 
 
-export interface IAnedya_GetLatestData_Resp {
+export interface IAnedya_GetLatestData_Resp_Obj {
   isSuccess?: boolean;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
@@ -79,7 +85,7 @@ export interface IAnedya_GetLatestData_Resp {
 /**
  * Response object for fetching the latest data.
  */
-export class Anedya_GetLatestData_Resp implements IAnedya_GetLatestData_Resp {
+export class Anedya_GetLatestData_Resp_Obj implements IAnedya_GetLatestData_Resp_Obj {
   constructor(
     public isSuccess: boolean = false,
     public isDataAvailable: boolean=false,

@@ -50,6 +50,7 @@
     "minimatch": "^9.0.5",
     "minipass": "^7.1.2",
     "ms": "^2.1.3",
+    "my-first-npm-sdk": "^0.0.12",
     "object-assign": "^4.1.1",
     "package-json-from-dist": "^1.0.1",
     "path-key": "^3.1.1",

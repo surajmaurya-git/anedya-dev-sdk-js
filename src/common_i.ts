@@ -1,3 +1,6 @@
+/*
+Manage all common interfaces
+*/
 export interface IConfigHeaders {
   tokenId: string;
   tokenBytes: Uint8Array;

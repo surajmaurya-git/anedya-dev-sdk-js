@@ -1,11 +1,17 @@
+/*
+ * This module contains the NewNode class which is used to create an instance
+ * of a node. A node is a logical entity that can be used to access data from
+ * anedya of a particular device. 
+ *
+ */
 import { fetchData,fetchLatestData } from "./services/accessData";
-import { _IAnedya_GetData_Req, _IAnedya_GetLatestData_Req } from "./models";
+import { _IAnedya_GetData_Req_Obj, _IAnedya_GetLatestData_Req_Obj } from "./models";
 import { NewClient } from "./client";
 import { IConfigHeaders } from "./common_i";
 
 export interface INode {
   getNodeId(): string;
-  getData(accessDataReq: _IAnedya_GetData_Req): Promise<any>;
+  getData(accessDataReq: _IAnedya_GetData_Req_Obj): Promise<any>;
 }
 
 export class NewNode implements INode {
@@ -44,7 +50,7 @@ export class NewNode implements INode {
    * @param {"asc"|"desc"} [accessDataReq.order="desc"] - The order of the data points to return.
    * @returns {Promise<any>} A promise that resolves with the response data.
    */
-  async getData(accessDataReq: _IAnedya_GetData_Req): Promise<any> {
+  async getData(accessDataReq: _IAnedya_GetData_Req_Obj): Promise<any> {
     return await fetchData(
       this.#baseUrl,
       this.#configHeaders,
@@ -57,7 +63,7 @@ export class NewNode implements INode {
    * @param {string} variableIdentifier - The variable identifier name to fetch the latest data point for.
    * @returns {Promise<any>} A promise that resolves with the response data.
    */
-  async getlatestData(variableIdentifier:string) {
+  async getLatestData(variableIdentifier:string) {
     const accessDataReq={
       variable:variableIdentifier
     }

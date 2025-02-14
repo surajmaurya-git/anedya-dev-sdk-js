@@ -1,14 +1,17 @@
+/*
+ Access Data from the Anedya platform side api.
+*/
 import {
-  _IAnedya_GetData_Req,
-  _IAnedya_GetLatestData_Req,
-  IAnedya_GetData_Resp,
-  IAnedya_GetLatestData_Resp,
+  _IAnedya_GetData_Req_Obj,
+  _IAnedya_GetLatestData_Req_Obj,
+  IAnedya_GetData_Resp_Obj,
+  IAnedya_GetLatestData_Resp_Obj,
 } from "../models";
 import { anedyaHashing } from "../anedya_hashing";
 import { IConfigHeaders, _ITimeSeriesData } from "../common_i";
 
 // ------------------------------ Get Data -----------------------------
-interface _IAnedya_GetData_Resp {
+interface _IAnedya_GetData_Resp_Obj {
   success: boolean;
   data: _ITimeSeriesData | null;
   errorcode: number;
@@ -23,7 +26,7 @@ export const fetchData = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  accessDataReq: _IAnedya_GetData_Req
+  accessDataReq: _IAnedya_GetData_Req_Obj
 ): Promise<any> => {
   const url = `${baseUrl}/data/getData`;
 
@@ -65,8 +68,8 @@ export const fetchData = async (
       return null;
     }
 
-    const responseData: _IAnedya_GetData_Resp = await response.json();
-    let res: IAnedya_GetData_Resp = {};
+    const responseData: _IAnedya_GetData_Resp_Obj = await response.json();
+    let res: IAnedya_GetData_Resp_Obj = {};
 
     res.isSuccess = responseData.success;
     if (responseData.success) {
@@ -112,7 +115,7 @@ export const fetchLatestData = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  accessDataReq: _IAnedya_GetLatestData_Req
+  accessDataReq: _IAnedya_GetLatestData_Req_Obj
 ): Promise<any> => {
   const url = `${baseUrl}/data/latest`;
 
@@ -149,7 +152,7 @@ export const fetchLatestData = async (
     }
 
     const responseData: _IAnedya_GetlatestData_Resp = await response.json();
-    let res: IAnedya_GetLatestData_Resp = {};
+    let res: IAnedya_GetLatestData_Resp_Obj = {};
 
     res.isSuccess = responseData.success;
     if (responseData.success) {
