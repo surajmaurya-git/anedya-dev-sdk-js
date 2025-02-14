@@ -1,10 +1,10 @@
-import { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp, Anedya_GetlatestData_Resp } from "./dist/index.mjs";
+import { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp, Anedya_GetLatestData_Resp } from "./dist/index.mjs";
 
 const tokenId="4Sg4IPDAxYAcVVl1FfS6XbCO";
 const token="FseKcRl04ieP7fjRprMtenrGuxcIZaoqKPXHB4yX1o8LgqrrpTCUf0J2xUSQGHP8";
 const NodeId="0193e245-d735-7347-99d4-c0243ed11dfa";
 
-const testMode=true; ////make it true, for sandbox
+const testMode=true; //make it true, for sandbox
 
 // Initialize the Anedya client
 let anedya = new Anedya();
@@ -27,8 +27,8 @@ try{
 //======================= Get Data =========================================
 (async () => {
   try {
-    const currentTime = Math.floor(Date.now()); // time in milli seconds
-    const delayed_24_hours = currentTime - 86400000;
+    const currentTime = Math.floor(Date.now()); // time in milliseconds
+    const delayed_24_hours = currentTime - 86400000; //time in milliseconds
     let getData_req=new Anedya_GetData_Req;
     getData_req.variable=variableIdentifier;
     getData_req.from=delayed_24_hours;
@@ -40,7 +40,7 @@ try{
     getData_resp = await node_1.getData(getData_req);
     if (getData_resp.isSuccess) {
       if(getData_resp.isDataAvailable){
-        console.log("Data;",getData_resp.data);
+        console.log("Data:",getData_resp.data);
       }else{
         console.log("No data available in requested timestamp!!");
       }
@@ -55,7 +55,7 @@ try{
 //============================ Get Latest Data =============================
 (async () => {
   try {
-    let getLatestData_resp=new Anedya_GetlatestData_Resp;
+    let getLatestData_resp=new Anedya_GetLatestData_Resp;
     getLatestData_resp=await node_1.getlatestData(variableIdentifier);
   
     if (getLatestData_resp.isSuccess) {

@@ -1,4 +1,4 @@
-import { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp, Anedya_GetlatestData_Resp } from "my-first-npm-sdk";
+import { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp, Anedya_GetLatestData_Resp } from "my-first-npm-sdk";
 
 const tokenId="4Sg4IPDAxYAcVVl1FfS6XbCO";
 const token="FseKcRl04ieP7fjRprMtenrGuxcIZaoqKPXHB4yX1o8LgqrrpTCUf0J2xUSQGHP8";
@@ -15,11 +15,11 @@ const variableIdentifier="temperature";
 //======================= Data Access =========================================
 (async () => {
   try {
-    const currentTime = Math.floor(Date.now() / 1000); // time in seconds
-    const delayed_24_hours = currentTime - 86400;
+    const currentTime = Math.floor(Date.now()); // time in milliseconds
+    const delayed_24_hours_time = currentTime - 86400000;
     let getData_req=new Anedya_GetData_Req;
     getData_req.variable=variableIdentifier;
-    getData_req.from=delayed_24_hours;
+    getData_req.from=delayed_24_hours_time;
     getData_req.to=currentTime;
     getData_req.limit=10;
     
@@ -43,7 +43,7 @@ const variableIdentifier="temperature";
 //============================ Latest Data =============================
 (async () => {
   try {
-    let getLatestData_resp=new Anedya_GetlatestData_Resp;
+    let getLatestData_resp=new Anedya_GetLatestData_Resp;
     getLatestData_resp=await node_1.getlatestData(variableIdentifier);
   
     if (getLatestData_resp.isSuccess) {

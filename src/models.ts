@@ -79,7 +79,7 @@ export interface IAnedya_GetLatestData_Resp {
 /**
  * Response object for fetching the latest data.
  */
-export class Anedya_GetlatestData_Resp implements IAnedya_GetLatestData_Resp {
+export class Anedya_GetLatestData_Resp implements IAnedya_GetLatestData_Resp {
   constructor(
     public isSuccess: boolean = false,
     public isDataAvailable: boolean=false,
