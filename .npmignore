@@ -1,4 +1,8 @@
-development.js
-development.ts
-development
-previous
+.vscode
+node_modules/
+.git/
+tests/
+development/
+previous/
+
+src/

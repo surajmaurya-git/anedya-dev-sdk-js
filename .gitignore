@@ -1,9 +1,6 @@
-node_modules
-dist
-development
-previous
-development.js
-development.ts
+node_modules/
+tests/
+development/
+previous/
 
-
-.vscode
+dist/
