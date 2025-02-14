@@ -1,4 +1,4 @@
-const { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp,Anedya_GetlatestData_Resp} = require("./dist/index");
+import { Anedya, Anedya_GetData_Req, Anedya_GetData_Resp, Anedya_GetlatestData_Resp } from "./dist/index.mjs";
 
 const tokenId="4Sg4IPDAxYAcVVl1FfS6XbCO";
 const token="FseKcRl04ieP7fjRprMtenrGuxcIZaoqKPXHB4yX1o8LgqrrpTCUf0J2xUSQGHP8";
@@ -13,6 +13,16 @@ let client = anedya.NewClient(connect_config); // create anedya client
 
 let node_1 = anedya.NewNode(client, NodeId);  // create node client 
 const variableIdentifier="temperature";
+
+//======================= Get Node Id =========================================
+(async()=>{
+try{
+  const nodeId=node_1.getNodeId();
+  console.log("Node Id:",nodeId);
+}catch(error){
+  console.log(error);
+}
+})();
 
 //======================= Get Data =========================================
 (async () => {
