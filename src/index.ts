@@ -11,7 +11,8 @@ import {
   Anedya_GetData_Req_Obj,
   Anedya_GetData_Resp_Obj,
   Anedya_GetLatestData_Resp_Obj,
-  Anedya_SetKey_Req_Obj
+  Anedya_SetKey_Req_Obj,
+  Anedya_GetKey_Req_Obj
 } from "./models";
 
 
@@ -21,7 +22,8 @@ export {
   Anedya_GetData_Req_Obj,
   Anedya_GetData_Resp_Obj,
   Anedya_GetLatestData_Resp_Obj,
-  Anedya_SetKey_Req_Obj
+  Anedya_SetKey_Req_Obj,
+  Anedya_GetKey_Req_Obj
 };
 
 

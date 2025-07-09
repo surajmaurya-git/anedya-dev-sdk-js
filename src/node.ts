@@ -5,8 +5,8 @@
  *
  */
 import { fetchData,fetchLatestData } from "./services/accessData";
-import { setkey } from "./services/valueStore";
-import { _IAnedya_GetData_Req_Obj, _IAnedya_GetLatestData_Req_Obj, _IAnedya_SetKey_Req_Obj } from "./models";
+import { setKey, getKey } from "./services/valueStore";
+import { _IAnedya_GetData_Req_Obj, _IAnedya_GetLatestData_Req_Obj, _IAnedya_SetKey_Req_Obj, _IAnedya_GetKey_Req_Obj } from "./models";
 import { NewClient } from "./client";
 import { IConfigHeaders } from "./common_i";
 
@@ -77,12 +77,22 @@ export class NewNode implements INode {
   }
 
   /**/
-  async setKey(setKeyConfig: _IAnedya_SetKey_Req_Obj): Promise<any> {
-    return await setkey(
+  async setKey(reqConfig: _IAnedya_SetKey_Req_Obj): Promise<any> {
+    return await setKey(
       this.#baseUrl,
       this.#configHeaders,
       [this.#nodeId],
-      setKeyConfig
+      reqConfig
+    );
+  }
+
+  /**/
+  async getKey(reqConfig : _IAnedya_GetKey_Req_Obj): Promise<any> {
+    return await getKey(
+      this.#baseUrl,
+      this.#configHeaders,
+      [this.#nodeId],
+      reqConfig
     );
   }
 

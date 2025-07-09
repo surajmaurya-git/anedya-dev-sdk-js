@@ -6,7 +6,6 @@
  */
 import { _ITimeSeriesData } from "./common_i";
 
-
 // ============================== Generic Response Handling ==============================
 export interface IAnedya_Generic_Resp_Obj {
   isSuccess: boolean;
@@ -157,5 +156,72 @@ export class Anedya_SetKey_Req_Obj implements _IAnedya_SetKey_Req_Obj {
         "Invalid type value. It should be either 'string', 'binary', 'float', or 'boolean'."
       );
     }
+  }
+}
+
+// ------------ Get Value-Store ------------
+export interface _IAnedya_GetKey_Req_Obj {
+  namespace: {
+    scope: "global" | "node";
+    id: string;
+  };
+  key: string;
+}
+
+export class Anedya_GetKey_Req_Obj implements _IAnedya_GetKey_Req_Obj {
+  constructor(
+    public namespace: {
+      scope: "global" | "node";
+      id: string;
+    },
+    public key: string
+  ) {
+    if (this.namespace.scope !== "global" && this.namespace.scope !== "node") {
+      throw new Error(
+        "Invalid namespace scope. It should be either 'global' or 'node'."
+      );
+    }
+  }
+}
+
+export interface IAnedya_GetKey_Resp_Obj {
+  isSuccess: boolean;
+  reasonCode: string;
+  namespace: {
+    scope: string;
+    id: string;
+  };
+  key: string;
+  value: string | number | boolean;
+  type: string;
+  size: number;
+  modified: number;
+  created: number;
+}
+
+export class Anedya_GetKey_Resp_Obj implements IAnedya_GetKey_Resp_Obj {
+  constructor(
+    public isSuccess: boolean,
+    public reasonCode: string,
+    public namespace: {
+      scope: string;
+      id: string;
+    },
+    public key: string,
+    public value: string | number | boolean,
+    public type: string,
+    public size: number,
+    public modified: number,
+    public created: number
+  ) {
+    this.isSuccess = isSuccess;
+    this.reasonCode = reasonCode;
+    this.namespace = namespace;
+    this.key = key;
+    this.value = value;
+    this.type = type;
+    this.size = size;
+    this.modified = modified;
+    this.created = created;
   }
 }
