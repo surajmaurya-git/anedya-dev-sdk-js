@@ -1,6 +1,6 @@
 import { IConfigHeaders } from "./common_i";
 
-export const anedyaHashing = async (requestData: any, configHeaders: IConfigHeaders, currentTime: number): Promise<any> => {
+export const anedyaSignature = async (requestData: any, configHeaders: IConfigHeaders, currentTime: number): Promise<any> => {
     try {
       const encoder = new TextEncoder();
       const bodyBytes = encoder.encode(JSON.stringify(requestData));
@@ -9,7 +9,6 @@ export const anedyaHashing = async (requestData: any, configHeaders: IConfigHead
       const bodyHashBuffer = await crypto.subtle.digest("SHA-256", bodyBytes);
       const bodyHashBytes = new Uint8Array(bodyHashBuffer);
   
-    
       const timeBytes = new Uint8Array(8);
       new DataView(timeBytes.buffer).setBigUint64(0, BigInt(currentTime), false); // Big-endian
   

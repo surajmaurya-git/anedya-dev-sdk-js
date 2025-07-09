@@ -7,7 +7,7 @@ import {
   IAnedya_GetData_Resp_Obj,
   IAnedya_GetLatestData_Resp_Obj,
 } from "../models";
-import { anedyaHashing } from "../anedya_hashing";
+import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders, _ITimeSeriesData } from "../common_i";
 
 // ------------------------------ Get Data -----------------------------
@@ -39,7 +39,7 @@ export const fetchData = async (
     order: accessDataReq.order,
   };
   const currentTime = Math.floor(Date.now() / 1000);
-  const combinedHash = await anedyaHashing(requestData,configHeaders,currentTime);
+  const combinedHash = await anedyaSignature(requestData,configHeaders,currentTime);
 
   try {
     const reqHeaders = {
@@ -124,7 +124,7 @@ export const fetchLatestData = async (
     variable: accessDataReq.variable,
   };
   const currentTime = Math.floor(Date.now() / 1000);
-  const combinedHash = await anedyaHashing(requestData,configHeaders,currentTime);
+  const combinedHash = await anedyaSignature(requestData,configHeaders,currentTime);
   try {
     const reqHeaders = {
       Authorization: configHeaders.authorizationMode,

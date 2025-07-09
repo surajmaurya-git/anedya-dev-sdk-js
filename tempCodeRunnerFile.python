@@ -1,0 +1,41 @@
+import json
+import time
+import requests
+import random
+
+session=requests.session()
+
+def submit_data(param_var_type:str, param_var_identifier:str,param_var_value=25.00)->bool:
+    url = f"https://device.ap-in-1.anedya.io/v1/submitData"
+    
+    payload = json.dumps({
+    "data": [
+        {
+        "variable": param_var_identifier,
+        "value": param_var_value,
+        "timestamp": 0
+        }
+    ]
+    })
+    headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Auth-mode': 'key',
+    'Authorization': "8731c8f051e0c1fc469e980e113b3b1c"
+    }
+    print(payload)
+    response = session.request("POST",url, headers=headers, data=payload, timeout=10)
+    print(response.text)
+    error_code=json.loads(response.text).get('errorcode')
+    if error_code==0:
+        print("Data submitted successfully")
+        print()
+    else:
+        print(response.text)
+
+if __name__ == "__main__":
+    while(1):
+        param_var_value = float(random.randint(35, 40))
+        
+        submit_data('float','humidity',param_var_value)
+        time.sleep(2)
