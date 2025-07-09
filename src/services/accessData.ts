@@ -123,7 +123,7 @@ export const fetchLatestData = async (
     nodes: nodes,
     variable: accessDataReq.variable,
   };
-  const currentTime = Math.floor(Date.now() / 1000);
+  const currentTime = Math.floor(Date.now() / 1000); // time in sec
   const combinedHash = await anedyaSignature(requestData,configHeaders,currentTime);
   try {
     const reqHeaders = {

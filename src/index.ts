@@ -10,7 +10,8 @@ import { Anedya } from "./anedya";
 import {
   Anedya_GetData_Req_Obj,
   Anedya_GetData_Resp_Obj,
-  Anedya_GetLatestData_Resp_Obj
+  Anedya_GetLatestData_Resp_Obj,
+  Anedya_SetKey_Req_Obj
 } from "./models";
 
 
@@ -19,7 +20,8 @@ export {
   Anedya,
   Anedya_GetData_Req_Obj,
   Anedya_GetData_Resp_Obj,
-  Anedya_GetLatestData_Resp_Obj
+  Anedya_GetLatestData_Resp_Obj,
+  Anedya_SetKey_Req_Obj
 };
 
 
