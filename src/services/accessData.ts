@@ -22,7 +22,7 @@ interface _IAnedya_GetData_Resp_Obj {
   endTime: number;
 }
 
-export const fetchData = async (
+export const  getData = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
