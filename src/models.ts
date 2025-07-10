@@ -98,9 +98,7 @@ export interface IAnedya_GetLatestData_Resp_Obj {
   data?: _ITimeSeriesData | null;
   error?: string;
 }
-/**
- * Response object for fetching the latest data.
- */
+
 export class Anedya_GetLatestData_Resp_Obj
   implements IAnedya_GetLatestData_Resp_Obj
 {
@@ -128,9 +126,7 @@ export interface _IAnedya_SetKey_Req_Obj {
   value: string | number | boolean;
   type: "string" | "binary" | "float" | "boolean";
 }
-/**
- * Request object for fetching data.
- */
+
 export class Anedya_SetKey_Req_Obj implements _IAnedya_SetKey_Req_Obj {
   constructor(
     public namespace: {
@@ -223,5 +219,31 @@ export class Anedya_GetKey_Resp_Obj implements IAnedya_GetKey_Resp_Obj {
     this.size = size;
     this.modified = modified;
     this.created = created;
+  }
+}
+
+// ------------ Delete Value-Store ------------
+
+export interface _IAnedya_DeleteKey_Req_Obj {
+  namespace: {
+    scope: "global" | "node";
+    id: string;
+  };
+  key: string;
+}
+
+export class Anedya_DeleteKey_Req_Obj implements _IAnedya_DeleteKey_Req_Obj {
+  constructor(
+    public namespace: {
+      scope: "global" | "node";
+      id: string;
+    },
+    public key: string
+  ) {
+    if (this.namespace.scope !== "global" && this.namespace.scope !== "node") {
+      throw new Error(
+        "Invalid namespace scope. It should be either 'global' or 'node'."
+      );
+    }
   }
 }

@@ -1,12 +1,18 @@
 /*
  * This module contains the NewNode class which is used to create an instance
  * of a node. A node is a logical entity that can be used to access data from
- * anedya of a particular device. 
+ * anedya of a particular device.
  *
  */
-import { fetchData,fetchLatestData } from "./services/accessData";
-import { setKey, getKey } from "./services/valueStore";
-import { _IAnedya_GetData_Req_Obj, _IAnedya_GetLatestData_Req_Obj, _IAnedya_SetKey_Req_Obj, _IAnedya_GetKey_Req_Obj } from "./models";
+import { fetchData, fetchLatestData } from "./services/accessData";
+import { setKey, getKey, deleteKey } from "./services/valueStore";
+import {
+  _IAnedya_GetData_Req_Obj,
+  _IAnedya_GetLatestData_Req_Obj,
+  _IAnedya_SetKey_Req_Obj,
+  _IAnedya_GetKey_Req_Obj,
+  _IAnedya_DeleteKey_Req_Obj,
+} from "./models";
 import { NewClient } from "./client";
 import { IConfigHeaders } from "./common_i";
 
@@ -21,7 +27,14 @@ export class NewNode implements INode {
   #configHeaders: IConfigHeaders;
 
   constructor(client: NewClient, nodeId: string) {
-    const { baseUrl, tokenId, tokenBytes, signatureVersionBytes, signatureVersion, authorizationMode } = client;
+    const {
+      baseUrl,
+      tokenId,
+      tokenBytes,
+      signatureVersionBytes,
+      signatureVersion,
+      authorizationMode,
+    } = client;
     this.#nodeId = nodeId; // Assign using #
     this.#baseUrl = baseUrl;
     this.#configHeaders = {
@@ -64,10 +77,10 @@ export class NewNode implements INode {
    * @param {string} variableIdentifier - The variable identifier name to fetch the latest data point for.
    * @returns {Promise<any>} A promise that resolves with the response data.
    */
-  async getLatestData(variableIdentifier:string) {
-    const accessDataReq={
-      variable:variableIdentifier
-    }
+  async getLatestData(variableIdentifier: string) {
+    const accessDataReq = {
+      variable: variableIdentifier,
+    };
     return await fetchLatestData(
       this.#baseUrl,
       this.#configHeaders,
@@ -87,7 +100,7 @@ export class NewNode implements INode {
   }
 
   /**/
-  async getKey(reqConfig : _IAnedya_GetKey_Req_Obj): Promise<any> {
+  async getKey(reqConfig: _IAnedya_GetKey_Req_Obj): Promise<any> {
     return await getKey(
       this.#baseUrl,
       this.#configHeaders,
@@ -96,4 +109,13 @@ export class NewNode implements INode {
     );
   }
 
+  /**/
+  async deleteKey(reqConfig: _IAnedya_DeleteKey_Req_Obj): Promise<any> {
+    return await deleteKey(
+      this.#baseUrl,
+      this.#configHeaders,
+      [this.#nodeId],
+      reqConfig
+    );
+  }
 }
