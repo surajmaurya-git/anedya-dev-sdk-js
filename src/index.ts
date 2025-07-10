@@ -13,8 +13,22 @@ import {
   Anedya_GetLatestData_Resp_Obj,
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
-  Anedya_DeleteKey_Req_Obj
+  Anedya_DeleteKey_Req_Obj,
 } from "./models";
+
+import{
+  AnedyaScope,
+  AnedyaDataType,
+}from "./anedya_constant"
+
+import {getAnedyaErrorMessage} from "./utility";
+
+
+
+
+
+
+
 
 
 // Export all the necessary components 
@@ -25,7 +39,10 @@ export {
   Anedya_GetLatestData_Resp_Obj,
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
-  Anedya_DeleteKey_Req_Obj
+  Anedya_DeleteKey_Req_Obj,
+  AnedyaScope,
+  AnedyaDataType,
+  getAnedyaErrorMessage,
 };
 
 

@@ -1,8 +1,6 @@
-
-
-export class AnedyaError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "AnedyaError";
-    }
-}
+export const AnedyaError = {
+  SUCCESS: 0,
+  FAILED: 1,
+  Timeout: 2,
+  Unknown: 3,
+} as const;
