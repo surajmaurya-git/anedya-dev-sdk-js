@@ -21,7 +21,7 @@ interface _AnedyaGetDataRespInterface {
   endTime: number;
 }
 
-export const  getData = async (
+export const getData = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
@@ -32,13 +32,17 @@ export const  getData = async (
   const requestData = {
     nodes: nodes,
     variable: accessDataReq.variable,
-    from: Math.floor(accessDataReq.from/1000), 
-    to: Math.floor(accessDataReq.to/1000),   
+    from: Math.floor(accessDataReq.from / 1000),
+    to: Math.floor(accessDataReq.to / 1000),
     limit: accessDataReq.limit,
     order: accessDataReq.order,
   };
   const currentTime = Math.floor(Date.now() / 1000);
-  const combinedHash = await anedyaSignature(requestData,configHeaders,currentTime);
+  const combinedHash = await anedyaSignature(
+    requestData,
+    configHeaders,
+    currentTime
+  );
 
   try {
     const reqHeaders = {
@@ -71,14 +75,15 @@ export const  getData = async (
     let res: AnedyaGetDataBetweenRespInterface = {};
 
     res.isSuccess = responseData.success;
+    res.reasonCode = responseData.reasonCode;
+    res.isDataAvailable = false;
+    res.data = null;
+
     if (responseData.success) {
       let data: any = responseData.data;
       if (data == undefined || data == null || Object.keys(data).length === 0) {
-        data = null;
         res.isDataAvailable = false;
-        return res;
-      }
-      if (nodes.length === 1) {
+      } else if (nodes.length === 1) {
         data = data[nodes.toString()];
         res.data = data;
         res.isDataAvailable = true;
@@ -86,13 +91,10 @@ export const  getData = async (
         res.data = data;
         res.isDataAvailable = true;
       }
-      res.count = responseData.count;
-      res.startTime = responseData.startTime;
-      res.endTime = responseData.endTime;
-    } else {
-      res.isSuccess = responseData.success;
-      res.error = responseData.error;
     }
+    res.count = responseData.count;
+    res.startTime = responseData.startTime;
+    res.endTime = responseData.endTime;
     return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);
@@ -123,7 +125,11 @@ export const fetchLatestData = async (
     variable: accessDataReq.variable,
   };
   const currentTime = Math.floor(Date.now() / 1000); // time in sec
-  const combinedHash = await anedyaSignature(requestData,configHeaders,currentTime);
+  const combinedHash = await anedyaSignature(
+    requestData,
+    configHeaders,
+    currentTime
+  );
   try {
     const reqHeaders = {
       Authorization: configHeaders.authorizationMode,
@@ -150,18 +156,18 @@ export const fetchLatestData = async (
       return null;
     }
 
-    const responseData: _AnedyaGetLatestDataRespInterface = await response.json();
+    const responseData: _AnedyaGetLatestDataRespInterface =
+      await response.json();
     let res: AnedyaLatestDataRespInterface = {};
-
     res.isSuccess = responseData.success;
+    res.reasonCode = responseData.reasonCode;
+    res.isDataAvailable = false;
+    res.data = null;
     if (responseData.success) {
       let data: any = responseData.data;
       if (data == undefined || data == null || Object.keys(data).length === 0) {
-        data = null;
         res.isDataAvailable = false;
-        return res;
-      }
-      if (nodes.length === 1) {
+      } else if (nodes.length === 1) {
         data = data[nodes.toString()];
         res.data = data;
         res.isDataAvailable = true;
@@ -169,9 +175,6 @@ export const fetchLatestData = async (
         res.data = data;
         res.isDataAvailable = true;
       }
-    } else {
-      res.isSuccess = responseData.success;
-      res.error = responseData.error;
     }
     return res;
   } catch (error) {

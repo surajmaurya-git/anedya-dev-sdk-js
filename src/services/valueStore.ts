@@ -82,9 +82,7 @@ export const setKey = async (
     const responseData: _AnedyaSetKeyRespInterface = await response.json();
     let res: AnedyaSetKeyRespInterface = {};
     res.isSuccess = responseData.success;
-    if (!res.isSuccess) {
-      res.reasonCode = responseData.reasonCode;
-    }
+    res.reasonCode = responseData.reasonCode;
     return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);
@@ -170,9 +168,6 @@ export const getKey = async (
     let res: AnedyaGetKeyRespInterface = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;
-    if (!res.isSuccess) {
-      return res;
-    }
     res.namespace = responseData.namespace;
     res.key = responseData.key;
     res.value = responseData.value;
@@ -333,16 +328,15 @@ export const scanValueStore = async (
       );
       return null;
     }
-    const responseData: _AnedyaScanValueStoreRespInterface = await response.json();
+    const responseData: _AnedyaScanValueStoreRespInterface =
+      await response.json();
     let res: AnedyaScanValueStoreRespInterface = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;
-    if(res.isSuccess){
-      res.count = responseData.count;
-      res.totalCount = responseData.totalCount;
-      res.data = responseData.data;
-      res.next = responseData.next;
-    }
+    res.count = responseData.count;
+    res.totalCount = responseData.totalCount;
+    res.data = responseData.data;
+    res.next = responseData.next;
     return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);

@@ -56,13 +56,13 @@ export class AnedyaGetDataBetweenRequest implements AnedyaGetDataBetweenReqInter
 }
 
 export interface AnedyaGetDataBetweenRespInterface {
-  isSuccess?: boolean;
-  isDataAvailable?: boolean;
-  data?: _ITimeSeriesData | null;
-  count?: number;
-  startTime?: number;
-  endTime?: number;
-  error?: string;
+  isSuccess: boolean;
+  reasonCode: string;
+  isDataAvailable: boolean;
+  data: _ITimeSeriesData | null;
+  count: number;
+  startTime: number;
+  endTime: number;
 }
 /**
  * Response object for fetching data.
@@ -70,21 +70,13 @@ export interface AnedyaGetDataBetweenRespInterface {
 export class AnedyaGetDataBetweenResponse implements AnedyaGetDataBetweenRespInterface {
   constructor(
     public isSuccess: boolean = false,
+    public reasonCode: string,
     public isDataAvailable: boolean = false,
     public data: _ITimeSeriesData | null,
-    public error: string,
     public count: number,
     public startTime: number,
     public endTime: number
-  ) {
-    this.isSuccess = isSuccess;
-    this.isDataAvailable = isDataAvailable;
-    this.data = data;
-    this.count = count;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.error = error;
-  }
+  ) {}
 }
 
 // ----------------------------- Get Latest Data -------------------------------------------
@@ -92,7 +84,7 @@ export interface AnedyaLatestDataRespInterface {
   isSuccess?: boolean;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
-  error?: string;
+  reasonCode?: string;
 }
 
 export class AnedyaLatestDataResponse
@@ -102,12 +94,12 @@ export class AnedyaLatestDataResponse
     public isSuccess: boolean = false,
     public isDataAvailable: boolean = false,
     public data: _ITimeSeriesData | null,
-    public error: string
+    public reasonCode: string
   ) {
     this.isSuccess = isSuccess;
     this.isDataAvailable = isDataAvailable;
     this.data = data;
-    this.error = error;
+    this.reasonCode = reasonCode;
   }
 }
 
