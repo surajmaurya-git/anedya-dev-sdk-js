@@ -13,7 +13,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "node tests/test.mjs"
   },
   "devDependencies": {
     "tsup": "^8.5.0",

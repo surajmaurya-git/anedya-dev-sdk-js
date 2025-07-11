@@ -15,7 +15,7 @@ import {
   AnedyaGetKeyResponse,
   AnedyaDeleteKeyResponse,
   AnedyaDeviceStatusResponse,
-} from "../dist/index.mjs";
+}from "my-first-npm-sdk";
 
 // Configuration Constants
 const tokenId = "FuaPdaamlVEpbttIEQJK4DSn";
@@ -173,11 +173,11 @@ async function getDeviceStatus() {
 // Execute functions
 (async () => {
   await getNodeId();
-  // await getData();
-  // await getLatestData();
-  // await setKey();
-  // await getKey();
+  await getData();
+  await getLatestData();
+  await setKey();
+  await getKey();
   await deleteKey();
-  // await scanValueStore();
-  // await getDeviceStatus();
+  await scanValueStore();
+  await getDeviceStatus();
 })();
