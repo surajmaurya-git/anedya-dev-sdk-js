@@ -10,7 +10,7 @@ import { Anedya } from "./anedya";
 import {
   AnedyaGetDataBetweenRequest,
   AnedyaGetDataBetweenResponse,
-  Anedya_GetLatestData_Resp_Obj,
+  AnedyaLatestDataResponse,
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
   Anedya_DeleteKey_Req_Obj,
@@ -32,7 +32,7 @@ export {
   Anedya,
   AnedyaGetDataBetweenRequest,
   AnedyaGetDataBetweenResponse,
-  Anedya_GetLatestData_Resp_Obj,
+  AnedyaLatestDataResponse,
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
   Anedya_DeleteKey_Req_Obj,

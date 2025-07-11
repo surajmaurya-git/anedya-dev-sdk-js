@@ -87,20 +87,16 @@ export class AnedyaGetDataBetweenResponse implements AnedyaGetDataBetweenRespInt
   }
 }
 
-// ------------ Get Latest Data ------------
-export interface _IAnedya_GetLatestData_Req_Obj {
-  variable: string;
-}
-
-export interface IAnedya_GetLatestData_Resp_Obj {
+// ----------------------------- Get Latest Data -------------------------------------------
+export interface AnedyaLatestDataRespInterface {
   isSuccess?: boolean;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
   error?: string;
 }
 
-export class Anedya_GetLatestData_Resp_Obj
-  implements IAnedya_GetLatestData_Resp_Obj
+export class AnedyaLatestDataResponse
+  implements AnedyaLatestDataRespInterface
 {
   constructor(
     public isSuccess: boolean = false,

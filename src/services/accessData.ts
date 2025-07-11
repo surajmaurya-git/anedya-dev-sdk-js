@@ -3,9 +3,8 @@
 */
 import {
   AnedyaGetDataBetweenReqInterface,
-  _IAnedya_GetLatestData_Req_Obj,
   AnedyaGetDataBetweenRespInterface,
-  IAnedya_GetLatestData_Resp_Obj,
+  AnedyaLatestDataRespInterface,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders, _ITimeSeriesData } from "../common";
@@ -115,7 +114,7 @@ export const fetchLatestData = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  accessDataReq: _IAnedya_GetLatestData_Req_Obj
+  accessDataReq: any
 ): Promise<any> => {
   const url = `${baseUrl}/data/latest`;
 
@@ -152,7 +151,7 @@ export const fetchLatestData = async (
     }
 
     const responseData: _AnedyaGetLatestDataRespInterface = await response.json();
-    let res: IAnedya_GetLatestData_Resp_Obj = {};
+    let res: AnedyaLatestDataRespInterface = {};
 
     res.isSuccess = responseData.success;
     if (responseData.success) {

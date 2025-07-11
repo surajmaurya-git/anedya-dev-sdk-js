@@ -14,7 +14,6 @@ import {
 import { deviceStatus } from "./services/deviceStatus";
 import {
   AnedyaGetDataBetweenReqInterface,
-  _IAnedya_GetLatestData_Req_Obj,
   _IAnedya_SetKey_Req_Obj,
   _IAnedya_GetKey_Req_Obj,
   _IAnedya_DeleteKey_Req_Obj,
