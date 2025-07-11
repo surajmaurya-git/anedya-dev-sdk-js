@@ -5,7 +5,13 @@
  *
  */
 import { getData, fetchLatestData } from "./services/accessData";
-import { setKey, getKey, deleteKey, scanValueStore } from "./services/valueStore";
+import {
+  setKey,
+  getKey,
+  deleteKey,
+  scanValueStore,
+} from "./services/valueStore";
+import { deviceStatus } from "./services/deviceStatus";
 import {
   _IAnedya_GetData_Req_Obj,
   _IAnedya_GetLatestData_Req_Obj,
@@ -127,6 +133,16 @@ export class NewNode implements INode {
       this.#configHeaders,
       [this.#nodeId],
       reqConfig
+    );
+  }
+
+  /**/
+  async deviceStatus(lastContactThreshold: number ): Promise<any> {
+    return await deviceStatus(
+      this.#baseUrl,
+      this.#configHeaders,
+      [this.#nodeId],
+      lastContactThreshold
     );
   }
 }

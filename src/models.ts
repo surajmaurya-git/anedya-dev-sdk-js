@@ -312,3 +312,11 @@ export class AnedyaScanValueStoreRespObject implements AnedyaScanValueStoreRespI
     this.next = next;
   }
 }
+
+// ---------------- Device Status ----------------
+
+export interface AnedyaDeviceStatusRespInterface {
+  isSuccess: boolean;
+  reasonCode: string;
+  data: any;
+}

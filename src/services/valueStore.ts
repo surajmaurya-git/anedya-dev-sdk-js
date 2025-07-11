@@ -11,7 +11,7 @@ import {
   AnedyaScanValueStoreRespInterface,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
-import { IConfigHeaders, _ITimeSeriesData } from "../common";
+import { IConfigHeaders } from "../common";
 
 // ------------------------------ Set Value-Store -----------------------------
 interface _IAnedya_SetKey_Resp_Obj {

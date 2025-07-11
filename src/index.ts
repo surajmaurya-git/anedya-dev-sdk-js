@@ -27,8 +27,6 @@ import{
 import {getAnedyaErrorMessage} from "./utility";
 
 
-
-
 // Export all the necessary components 
 export {
   Anedya,
@@ -43,7 +41,7 @@ export {
   getAnedyaErrorMessage,
   AnedyaScanValueStoreRespInterface,
   AnedyaScanValueStoreRespObject,
-  Anedya_ScanValueStore_Req_Obj
+  Anedya_ScanValueStore_Req_Obj,
 };
 
 
