@@ -13,7 +13,7 @@ import {
 } from "./services/valueStore";
 import { deviceStatus } from "./services/deviceStatus";
 import {
-  _IAnedya_GetData_Req_Obj,
+  AnedyaGetDataBetweenReqInterface,
   _IAnedya_GetLatestData_Req_Obj,
   _IAnedya_SetKey_Req_Obj,
   _IAnedya_GetKey_Req_Obj,
@@ -25,7 +25,7 @@ import { IConfigHeaders } from "./common";
 
 export interface INode {
   getNodeId(): string;
-  getDataBetween(accessDataReq: _IAnedya_GetData_Req_Obj): Promise<any>;
+  getDataBetween(accessDataReq: AnedyaGetDataBetweenReqInterface): Promise<any>;
 }
 
 export class NewNode implements INode {
@@ -71,7 +71,7 @@ export class NewNode implements INode {
    * @param {"asc"|"desc"} [accessDataReq.order="desc"] - The order of the data points to return.
    * @returns {Promise<any>} A promise that resolves with the response data.
    */
-  async getDataBetween(accessDataReq: _IAnedya_GetData_Req_Obj): Promise<any> {
+  async getDataBetween(accessDataReq: AnedyaGetDataBetweenReqInterface): Promise<any> {
     return await getData(
       this.#baseUrl,
       this.#configHeaders,

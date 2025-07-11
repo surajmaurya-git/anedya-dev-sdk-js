@@ -19,14 +19,14 @@ yarn add anedya-sdk
 ## Usage
 
 ```javascript
-import { Anedya, Anedya_GetData_Req_Obj, Anedya_GetData_Resp_Obj} from "anedya-sdk";
+import { Anedya, AnedyaGetDataBetweenRequest, AnedyaGetDataBetweenResponse} from "anedya-sdk";
 
 const anedya = new Anedya();
 const connect_config = anedya.NewConfig(tokenId, token);
 const client = anedya.NewClient(connect_config);
 const node_1 = anedya.NewNode(client, NodeId);
 
-const getData_req = new Anedya_GetData_Req_Obj(variableIdentifier,from_time,to_time);
-let getData_resp = new Anedya_GetData_Resp_Obj();
+const getData_req = new AnedyaGetDataBetweenRequest(variableIdentifier,from_time,to_time);
+let getData_resp = new AnedyaGetDataBetweenResponse();
 getData_resp = await node_1.getData(getData_req);
 ```

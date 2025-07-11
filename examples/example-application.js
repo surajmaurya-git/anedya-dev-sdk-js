@@ -1,7 +1,7 @@
 import {
   Anedya,
-  Anedya_GetData_Req_Obj,
-  Anedya_GetData_Resp_Obj,
+  AnedyaGetDataBetweenRequest,
+  AnedyaGetDataBetweenResponse,
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
   AnedyaScope,
@@ -41,13 +41,13 @@ async function getData() {
     const currentTime = Math.floor(Date.now()); //time in milliseconds
 
     const delayed_24_hours = currentTime - 86400 * 1000;
-    const getData_req = new Anedya_GetData_Req_Obj(
+    const getData_req = new AnedyaGetDataBetweenRequest(
       variableIdentifier,
       delayed_24_hours,
       currentTime,
       10
     );
-    let getData_resp = new Anedya_GetData_Resp_Obj();
+    let getData_resp = new AnedyaGetDataBetweenResponse();
 
     // const res = await node_1.getData(getData_req);
     getData_resp = await node_1.getDataBetween(getData_req);
@@ -157,13 +157,24 @@ async function scanValueStore() {
   }
 }
 
+// Functionn to get device status
+async function getDeviceStatus() {
+  try {
+    const deviceStatus = await node_1.deviceStatus(10);
+    console.log("Device Status:", deviceStatus);
+  } catch (error) {
+    console.error("Error getting Device Status:", error);
+  }
+}
+
 // Execute functions
 (async () => {
   await getNodeId();
   await getData();
-  await getLatestData();
-  await setKey();
-  await getKey();
-  // await deleteKey();
-  await scanValueStore();
+  // await getLatestData();
+  // await setKey();
+  // await getKey();
+  // // await deleteKey();
+  // await scanValueStore();
+  // await getDeviceStatus();
 })();

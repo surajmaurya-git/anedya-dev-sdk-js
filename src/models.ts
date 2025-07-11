@@ -21,7 +21,7 @@ export class Anedya_Generic_Resp_Obj implements IAnedya_Generic_Resp_Obj {
 
 // ============================== Data Access ==============================
 // ------------ Get Data ------------
-export interface _IAnedya_GetData_Req_Obj {
+export interface AnedyaGetDataBetweenReqInterface {
   variable: string;
   from: number;
   to: number;
@@ -31,7 +31,7 @@ export interface _IAnedya_GetData_Req_Obj {
 /**
  * Request object for fetching data.
  */
-export class Anedya_GetData_Req_Obj implements _IAnedya_GetData_Req_Obj {
+export class AnedyaGetDataBetweenRequest implements AnedyaGetDataBetweenReqInterface {
   constructor(
     public variable: string,
     public from: number,
@@ -55,7 +55,7 @@ export class Anedya_GetData_Req_Obj implements _IAnedya_GetData_Req_Obj {
   }
 }
 
-export interface IAnedya_GetData_Resp_Obj {
+export interface AnedyaGetDataBetweenRespInterface {
   isSuccess?: boolean;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
@@ -67,7 +67,7 @@ export interface IAnedya_GetData_Resp_Obj {
 /**
  * Response object for fetching data.
  */
-export class Anedya_GetData_Resp_Obj implements IAnedya_GetData_Resp_Obj {
+export class AnedyaGetDataBetweenResponse implements AnedyaGetDataBetweenRespInterface {
   constructor(
     public isSuccess: boolean = false,
     public isDataAvailable: boolean = false,
