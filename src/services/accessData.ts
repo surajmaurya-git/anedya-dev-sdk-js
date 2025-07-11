@@ -8,7 +8,7 @@ import {
   IAnedya_GetLatestData_Resp_Obj,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
-import { IConfigHeaders, _ITimeSeriesData } from "../common_i";
+import { IConfigHeaders, _ITimeSeriesData } from "../common";
 
 // ------------------------------ Get Data -----------------------------
 interface _IAnedya_GetData_Resp_Obj {

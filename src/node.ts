@@ -5,16 +5,17 @@
  *
  */
 import { getData, fetchLatestData } from "./services/accessData";
-import { setKey, getKey, deleteKey } from "./services/valueStore";
+import { setKey, getKey, deleteKey, scanValueStore } from "./services/valueStore";
 import {
   _IAnedya_GetData_Req_Obj,
   _IAnedya_GetLatestData_Req_Obj,
   _IAnedya_SetKey_Req_Obj,
   _IAnedya_GetKey_Req_Obj,
   _IAnedya_DeleteKey_Req_Obj,
+  _IAnedya_ScanVS_Req_Obj,
 } from "./models";
 import { NewClient } from "./client";
-import { IConfigHeaders } from "./common_i";
+import { IConfigHeaders } from "./common";
 
 export interface INode {
   getNodeId(): string;
@@ -112,6 +113,16 @@ export class NewNode implements INode {
   /**/
   async deleteKey(reqConfig: _IAnedya_DeleteKey_Req_Obj): Promise<any> {
     return await deleteKey(
+      this.#baseUrl,
+      this.#configHeaders,
+      [this.#nodeId],
+      reqConfig
+    );
+  }
+
+  /** */
+  async scanValueStore(reqConfig: _IAnedya_ScanVS_Req_Obj): Promise<any> {
+    return await scanValueStore(
       this.#baseUrl,
       this.#configHeaders,
       [this.#nodeId],

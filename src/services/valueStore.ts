@@ -7,9 +7,11 @@ import {
   _IAnedya_GetKey_Req_Obj,
   IAnedya_GetKey_Resp_Obj,
   _IAnedya_DeleteKey_Req_Obj,
+  _IAnedya_ScanVS_Req_Obj,
+  AnedyaScanValueStoreRespInterface,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
-import { IConfigHeaders, _ITimeSeriesData } from "../common_i";
+import { IConfigHeaders, _ITimeSeriesData } from "../common";
 
 // ------------------------------ Set Value-Store -----------------------------
 interface _IAnedya_SetKey_Resp_Obj {
@@ -252,6 +254,96 @@ export const deleteKey = async (
     let res: IAnedya_Generic_Resp_Obj = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;
+    return res;
+  } catch (error) {
+    console.error("Error during fetch operation:", error);
+    throw error;
+  }
+};
+
+// ------------------------------  Scan Value-Store -----------------------------
+interface _IAnedya_ScanVS_Resp_Obj {
+  success: boolean;
+  errorcode: number;
+  error: string;
+  reasonCode: string;
+  count: number;
+  totalCount: number;
+  data: any[];
+  next: number;
+}
+
+export const scanValueStore = async (
+  baseUrl: string,
+  configHeaders: IConfigHeaders,
+  nodes: string[],
+  reqConfig: _IAnedya_ScanVS_Req_Obj
+): Promise<any> => {
+  const url = `${baseUrl}/valuestore/scan`;
+  let Id;
+  if (reqConfig.filter.namespace.scope === "node") {
+    Id = nodes[0];
+  } else {
+    Id = reqConfig.filter.namespace.id;
+  }
+
+  const requestData = {
+    filter: {
+      namespace: {
+        scope: reqConfig.filter.namespace.scope,
+        id: Id,
+      },
+    },
+    orderby: reqConfig.orderby,
+    order: reqConfig.order,
+    limit: reqConfig.limit,
+    offset: reqConfig.offset,
+  };
+  const currentTime = Math.floor(Date.now() / 1000);
+  const combinedHash = await anedyaSignature(
+    requestData,
+    configHeaders,
+    currentTime
+  );
+
+  try {
+    const reqHeaders = {
+      Authorization: configHeaders.authorizationMode,
+      "x-Anedya-SignatureVersion": configHeaders.signatureVersion,
+      "X-Anedya-Tokenid": configHeaders.tokenId,
+      "X-Anedya-Timestamp": currentTime.toString(),
+      "X-Anedya-Signature": combinedHash,
+      "Content-Type": "application/json",
+    };
+    // console.log(reqHeaders);
+
+    const response = await fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: reqHeaders,
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      console.error(
+        `HTTP error! Status: ${
+          response.status
+        } Response: ${await response.text()}`
+      );
+      return null;
+    }
+    console.log(response);
+
+    const responseData: _IAnedya_ScanVS_Resp_Obj = await response.json();
+    let res: AnedyaScanValueStoreRespInterface = {};
+    res.isSuccess = responseData.success;
+    res.reasonCode = responseData.reasonCode;
+    if(res.isSuccess){
+      res.count = responseData.count;
+      res.totalCount = responseData.totalCount;
+      res.data = responseData.data;
+      res.next = responseData.next;
+    }
     return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);

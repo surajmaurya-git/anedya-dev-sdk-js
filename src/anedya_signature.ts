@@ -1,4 +1,4 @@
-import { IConfigHeaders } from "./common_i";
+import { IConfigHeaders } from "./common";
 
 export const anedyaSignature = async (requestData: any, configHeaders: IConfigHeaders, currentTime: number): Promise<any> => {
     try {

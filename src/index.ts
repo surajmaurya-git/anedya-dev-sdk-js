@@ -14,6 +14,9 @@ import {
   Anedya_SetKey_Req_Obj,
   Anedya_GetKey_Req_Obj,
   Anedya_DeleteKey_Req_Obj,
+  AnedyaScanValueStoreRespObject,
+  AnedyaScanValueStoreRespInterface,
+  Anedya_ScanValueStore_Req_Obj,
 } from "./models";
 
 import{
@@ -22,11 +25,6 @@ import{
 }from "./anedya_constant"
 
 import {getAnedyaErrorMessage} from "./utility";
-
-
-
-
-
 
 
 
@@ -43,6 +41,9 @@ export {
   AnedyaScope,
   AnedyaDataType,
   getAnedyaErrorMessage,
+  AnedyaScanValueStoreRespInterface,
+  AnedyaScanValueStoreRespObject,
+  Anedya_ScanValueStore_Req_Obj
 };
 
 

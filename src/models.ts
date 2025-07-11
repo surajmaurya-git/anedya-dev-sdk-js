@@ -4,7 +4,7 @@
  * and requests for the Anedya API.
  *
  */
-import { _ITimeSeriesData } from "./common_i";
+import { _ITimeSeriesData } from "./common";
 
 // ============================== Generic Response Handling ==============================
 export interface IAnedya_Generic_Resp_Obj {
@@ -245,5 +245,70 @@ export class Anedya_DeleteKey_Req_Obj implements _IAnedya_DeleteKey_Req_Obj {
         "Invalid namespace scope. It should be either 'global' or 'node'."
       );
     }
+  }
+}
+
+// ---------------- Value Store Scan ----------------
+
+export interface _IAnedya_ScanVS_Req_Obj {
+  filter: {
+    namespace: {
+      scope: "global" | "node";
+      id: string;
+    };
+  };
+  orderby: "namespace" | "key" | "created";
+  order: "asc" | "desc";
+  limit: number;
+  offset: number;
+}
+
+export class Anedya_ScanValueStore_Req_Obj implements _IAnedya_ScanVS_Req_Obj {
+  constructor(
+    public filter: {
+      namespace: {
+        scope: "global" | "node";
+        id: string;
+      };
+    },
+    public orderby: "namespace" | "key" | "created",
+    public order: "asc" | "desc",
+    public limit: number,
+    public offset: number
+  ) {
+    if (this.filter.namespace.scope !== "global" && this.filter.namespace.scope !== "node") {
+      throw new Error(
+        "Invalid namespace scope. It should be either 'global' or 'node'."
+      );
+    }
+
+  }
+}
+
+export interface AnedyaScanValueStoreRespInterface {
+  isSuccess: boolean;
+  reasonCode: string;
+  count: number;
+  totalCount: number;
+  data: any;
+  next: number;
+}
+
+
+export class AnedyaScanValueStoreRespObject implements AnedyaScanValueStoreRespInterface {
+  constructor(
+    public isSuccess: boolean,
+    public reasonCode: string,
+    public count: number,
+    public totalCount: number,
+    public data: any,
+    public next: number
+  ) {
+    this.isSuccess = isSuccess;
+    this.reasonCode = reasonCode;
+    this.count = count;
+    this.totalCount = totalCount;
+    this.data = data;
+    this.next = next;
   }
 }
