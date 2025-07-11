@@ -2,19 +2,20 @@
  Access Data from the Anedya platform side api.
 */
 import {
-  _IAnedya_SetKey_Req_Obj,
-  IAnedya_Generic_Resp_Obj,
-  _IAnedya_GetKey_Req_Obj,
-  IAnedya_GetKey_Resp_Obj,
-  _IAnedya_DeleteKey_Req_Obj,
-  _IAnedya_ScanVS_Req_Obj,
+  AnedyaSetKeyRequestInterface,
+  AnedyaDeleteKeyRespInterface,
+  AnedyaSetKeyRespInterface,
+  AnedyaGetKeyReqInterface,
+  AnedyaGetKeyRespInterface,
+  AnedyaDeleteKeyReqInterface,
+  AnedyaScanValueStoreReqInterface,
   AnedyaScanValueStoreRespInterface,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders } from "../common";
 
 // ------------------------------ Set Value-Store -----------------------------
-interface _IAnedya_SetKey_Resp_Obj {
+interface _AnedyaSetKeyRespInterface {
   success: boolean;
   errorcode: number;
   error: string;
@@ -25,7 +26,7 @@ export const setKey = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  reqConfig: _IAnedya_SetKey_Req_Obj
+  reqConfig: AnedyaSetKeyRequestInterface
 ): Promise<any> => {
   const url = `${baseUrl}/valuestore/setValue`;
   let Id;
@@ -78,8 +79,8 @@ export const setKey = async (
       return null;
     }
 
-    const responseData: _IAnedya_SetKey_Resp_Obj = await response.json();
-    let res: IAnedya_Generic_Resp_Obj = {};
+    const responseData: _AnedyaSetKeyRespInterface = await response.json();
+    let res: AnedyaSetKeyRespInterface = {};
     res.isSuccess = responseData.success;
     if (!res.isSuccess) {
       res.reasonCode = responseData.reasonCode;
@@ -92,7 +93,7 @@ export const setKey = async (
 };
 
 // ------------------------------ Get Value-Store -----------------------------
-interface _IAnedya_GetKey_Resp_Obj {
+interface _AnedyaGetKeyRespInterface {
   success: boolean;
   errorcode: number;
   error: string;
@@ -113,7 +114,7 @@ export const getKey = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  reqConfig: _IAnedya_GetKey_Req_Obj
+  reqConfig: AnedyaGetKeyReqInterface
 ): Promise<any> => {
   const url = `${baseUrl}/valuestore/getValue`;
   let Id;
@@ -164,9 +165,9 @@ export const getKey = async (
       return null;
     }
 
-    const responseData: _IAnedya_GetKey_Resp_Obj = await response.json();
+    const responseData: _AnedyaGetKeyRespInterface = await response.json();
     // console.log(responseData);
-    let res: IAnedya_GetKey_Resp_Obj = {};
+    let res: AnedyaGetKeyRespInterface = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;
     if (!res.isSuccess) {
@@ -187,7 +188,7 @@ export const getKey = async (
 };
 
 // ------------------------------ Delete Value-Store -----------------------------
-interface _IAnedya_DeleteKey_Resp_Obj {
+interface _AnedyaDeleteKeyRespInterface {
   success: boolean;
   errorcode: number;
   error: string;
@@ -198,7 +199,7 @@ export const deleteKey = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  reqConfig: _IAnedya_DeleteKey_Req_Obj
+  reqConfig: AnedyaDeleteKeyReqInterface
 ): Promise<any> => {
   const url = `${baseUrl}/valuestore/delete`;
   let Id;
@@ -249,9 +250,9 @@ export const deleteKey = async (
       return null;
     }
 
-    const responseData: _IAnedya_DeleteKey_Resp_Obj = await response.json();
+    const responseData: _AnedyaDeleteKeyRespInterface = await response.json();
     // console.log(responseData);
-    let res: IAnedya_Generic_Resp_Obj = {};
+    let res: AnedyaDeleteKeyRespInterface = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;
     return res;
@@ -262,7 +263,7 @@ export const deleteKey = async (
 };
 
 // ------------------------------  Scan Value-Store -----------------------------
-interface _IAnedya_ScanVS_Resp_Obj {
+interface _AnedyaScanValueStoreRespInterface {
   success: boolean;
   errorcode: number;
   error: string;
@@ -277,7 +278,7 @@ export const scanValueStore = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  reqConfig: _IAnedya_ScanVS_Req_Obj
+  reqConfig: AnedyaScanValueStoreReqInterface
 ): Promise<any> => {
   const url = `${baseUrl}/valuestore/scan`;
   let Id;
@@ -332,9 +333,7 @@ export const scanValueStore = async (
       );
       return null;
     }
-    console.log(response);
-
-    const responseData: _IAnedya_ScanVS_Resp_Obj = await response.json();
+    const responseData: _AnedyaScanValueStoreRespInterface = await response.json();
     let res: AnedyaScanValueStoreRespInterface = {};
     res.isSuccess = responseData.success;
     res.reasonCode = responseData.reasonCode;

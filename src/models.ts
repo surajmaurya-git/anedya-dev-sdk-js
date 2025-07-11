@@ -7,12 +7,12 @@
 import { _ITimeSeriesData } from "./common";
 
 // ============================== Generic Response Handling ==============================
-export interface IAnedya_Generic_Resp_Obj {
+export interface AnedyaGenericResponseInterface {
   isSuccess: boolean;
   reasonCode: string;
 }
 
-export class Anedya_Generic_Resp_Obj implements IAnedya_Generic_Resp_Obj {
+export class Anedya_Generic_Resp_Obj implements AnedyaGenericResponseInterface {
   constructor(public isSuccess: boolean, public reasonCode: string) {
     this.isSuccess = isSuccess;
     this.reasonCode = reasonCode;
@@ -113,7 +113,7 @@ export class AnedyaLatestDataResponse
 
 // ================================ Value Store ================================
 // ------------ Set Value-Store ------------
-export interface _IAnedya_SetKey_Req_Obj {
+export interface AnedyaSetKeyRequestInterface {
   namespace: {
     scope: "global" | "node";
     id: string;
@@ -123,7 +123,7 @@ export interface _IAnedya_SetKey_Req_Obj {
   type: "string" | "binary" | "float" | "boolean";
 }
 
-export class Anedya_SetKey_Req_Obj implements _IAnedya_SetKey_Req_Obj {
+export class AnedyaSetKeyRequest implements AnedyaSetKeyRequestInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
@@ -150,9 +150,20 @@ export class Anedya_SetKey_Req_Obj implements _IAnedya_SetKey_Req_Obj {
     }
   }
 }
+export interface AnedyaSetKeyRespInterface {
+  isSuccess: boolean;
+  reasonCode: string;
+}
+
+export class AnedyaSetKeyResponse implements AnedyaSetKeyRespInterface {
+  constructor(public isSuccess: boolean, public reasonCode: string) {
+    this.isSuccess = isSuccess;
+    this.reasonCode = reasonCode;
+  }
+}
 
 // ------------ Get Value-Store ------------
-export interface _IAnedya_GetKey_Req_Obj {
+export interface AnedyaGetKeyReqInterface {
   namespace: {
     scope: "global" | "node";
     id: string;
@@ -160,7 +171,7 @@ export interface _IAnedya_GetKey_Req_Obj {
   key: string;
 }
 
-export class Anedya_GetKey_Req_Obj implements _IAnedya_GetKey_Req_Obj {
+export class AnedyaGetKeyRequest implements AnedyaGetKeyReqInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
@@ -176,7 +187,7 @@ export class Anedya_GetKey_Req_Obj implements _IAnedya_GetKey_Req_Obj {
   }
 }
 
-export interface IAnedya_GetKey_Resp_Obj {
+export interface AnedyaGetKeyRespInterface {
   isSuccess: boolean;
   reasonCode: string;
   namespace: {
@@ -191,7 +202,7 @@ export interface IAnedya_GetKey_Resp_Obj {
   created: number;
 }
 
-export class Anedya_GetKey_Resp_Obj implements IAnedya_GetKey_Resp_Obj {
+export class AnedyaGetKeyResponse implements AnedyaGetKeyRespInterface {
   constructor(
     public isSuccess: boolean,
     public reasonCode: string,
@@ -220,7 +231,7 @@ export class Anedya_GetKey_Resp_Obj implements IAnedya_GetKey_Resp_Obj {
 
 // ------------ Delete Value-Store ------------
 
-export interface _IAnedya_DeleteKey_Req_Obj {
+export interface AnedyaDeleteKeyReqInterface {
   namespace: {
     scope: "global" | "node";
     id: string;
@@ -228,7 +239,7 @@ export interface _IAnedya_DeleteKey_Req_Obj {
   key: string;
 }
 
-export class Anedya_DeleteKey_Req_Obj implements _IAnedya_DeleteKey_Req_Obj {
+export class AnedyaDeleteKeyRequest implements AnedyaDeleteKeyReqInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
@@ -244,9 +255,21 @@ export class Anedya_DeleteKey_Req_Obj implements _IAnedya_DeleteKey_Req_Obj {
   }
 }
 
+export interface AnedyaDeleteKeyRespInterface {
+  isSuccess: boolean;
+  reasonCode: string;
+}
+
+export class AnedyaDeleteKeyResponse implements AnedyaDeleteKeyRespInterface {
+  constructor(public isSuccess: boolean, public reasonCode: string) {
+    this.isSuccess = isSuccess;
+    this.reasonCode = reasonCode;
+  }
+}
+
 // ---------------- Value Store Scan ----------------
 
-export interface _IAnedya_ScanVS_Req_Obj {
+export interface AnedyaScanValueStoreReqInterface {
   filter: {
     namespace: {
       scope: "global" | "node";
@@ -259,7 +282,7 @@ export interface _IAnedya_ScanVS_Req_Obj {
   offset: number;
 }
 
-export class Anedya_ScanValueStore_Req_Obj implements _IAnedya_ScanVS_Req_Obj {
+export class AnedyaScanValueStoreRequest implements AnedyaScanValueStoreReqInterface {
   constructor(
     public filter: {
       namespace: {
@@ -291,7 +314,7 @@ export interface AnedyaScanValueStoreRespInterface {
 }
 
 
-export class AnedyaScanValueStoreRespObject implements AnedyaScanValueStoreRespInterface {
+export class AnedyaScanValueStoreResponse implements AnedyaScanValueStoreRespInterface {
   constructor(
     public isSuccess: boolean,
     public reasonCode: string,
@@ -315,4 +338,16 @@ export interface AnedyaDeviceStatusRespInterface {
   isSuccess: boolean;
   reasonCode: string;
   data: any;
+}
+
+export class AnedyaDeviceStatusResponse implements AnedyaDeviceStatusRespInterface {
+  constructor(
+    public isSuccess: boolean,
+    public reasonCode: string,
+    public data: any
+  ) {
+    this.isSuccess = isSuccess;
+    this.reasonCode = reasonCode;
+    this.data = data;
+  }
 }

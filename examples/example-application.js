@@ -2,13 +2,13 @@ import {
   Anedya,
   AnedyaGetDataBetweenRequest,
   AnedyaGetDataBetweenResponse,
-  Anedya_SetKey_Req_Obj,
-  Anedya_GetKey_Req_Obj,
+  AnedyaSetKeyRequest,
+  AnedyaGetKeyRequest,
   AnedyaScope,
   AnedyaDataType,
   getAnedyaErrorMessage,
-  AnedyaScanValueStoreRespObject,
-  Anedya_ScanValueStore_Req_Obj
+  AnedyaScanValueStoreResponse,
+  AnedyaScanValueStoreRequest
 } from "../dist/index.mjs";
 
 // Configuration Constants
@@ -85,7 +85,7 @@ async function getLatestData() {
 
 async function setKey() {
   try {
-    let setKeyConfig = new Anedya_SetKey_Req_Obj(
+    let setKeyConfig = new AnedyaSetKeyRequest(
       { scope: AnedyaScope.NODE },
       "temperature",
       30,
@@ -104,7 +104,7 @@ async function setKey() {
 
 async function getKey() {
   try {
-    let getKeyConfig = new Anedya_GetKey_Req_Obj(
+    let getKeyConfig = new AnedyaGetKeyRequest(
       { scope: "node" },
       "temperature"
     );
@@ -121,7 +121,7 @@ async function getKey() {
 
 async function deleteKey() {
   try {
-    let deleteKeyConfig = new Anedya_GetKey_Req_Obj(
+    let deleteKeyConfig = new AnedyaGetKeyRequest(
       { scope: "node" },
       "temperature"
     );
@@ -138,7 +138,7 @@ async function deleteKey() {
 
 async function scanValueStore() {
   try {
-    let scanValueStoreConfig = new Anedya_ScanValueStore_Req_Obj(
+    let scanValueStoreConfig = new AnedyaScanValueStoreRequest(
       { namespace: { scope: AnedyaScope.NODE } },
       "namespace",
       "asc",

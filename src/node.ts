@@ -14,10 +14,10 @@ import {
 import { deviceStatus } from "./services/deviceStatus";
 import {
   AnedyaGetDataBetweenReqInterface,
-  _IAnedya_SetKey_Req_Obj,
-  _IAnedya_GetKey_Req_Obj,
-  _IAnedya_DeleteKey_Req_Obj,
-  _IAnedya_ScanVS_Req_Obj,
+  AnedyaSetKeyRequestInterface,
+  AnedyaGetKeyReqInterface,
+  AnedyaDeleteKeyReqInterface,
+  AnedyaScanValueStoreReqInterface,
 } from "./models";
 import { NewClient } from "./client";
 import { IConfigHeaders } from "./common";
@@ -96,7 +96,7 @@ export class NewNode implements INode {
   }
 
   /**/
-  async setKey(reqConfig: _IAnedya_SetKey_Req_Obj): Promise<any> {
+  async setKey(reqConfig: AnedyaSetKeyRequestInterface): Promise<any> {
     return await setKey(
       this.#baseUrl,
       this.#configHeaders,
@@ -106,7 +106,7 @@ export class NewNode implements INode {
   }
 
   /**/
-  async getKey(reqConfig: _IAnedya_GetKey_Req_Obj): Promise<any> {
+  async getKey(reqConfig: AnedyaGetKeyReqInterface): Promise<any> {
     return await getKey(
       this.#baseUrl,
       this.#configHeaders,
@@ -116,7 +116,7 @@ export class NewNode implements INode {
   }
 
   /**/
-  async deleteKey(reqConfig: _IAnedya_DeleteKey_Req_Obj): Promise<any> {
+  async deleteKey(reqConfig: AnedyaDeleteKeyReqInterface): Promise<any> {
     return await deleteKey(
       this.#baseUrl,
       this.#configHeaders,
@@ -126,7 +126,7 @@ export class NewNode implements INode {
   }
 
   /** */
-  async scanValueStore(reqConfig: _IAnedya_ScanVS_Req_Obj): Promise<any> {
+  async scanValueStore(reqConfig: AnedyaScanValueStoreReqInterface): Promise<any> {
     return await scanValueStore(
       this.#baseUrl,
       this.#configHeaders,
