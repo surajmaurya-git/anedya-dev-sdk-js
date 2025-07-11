@@ -13,6 +13,7 @@ import {
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders } from "../common";
+import { AnedyaError } from "../errors";
 
 // ------------------------------ Set Value-Store -----------------------------
 interface _AnedyaSetKeyRespInterface {
@@ -236,19 +237,41 @@ export const deleteKey = async (
       body: JSON.stringify(requestData),
     });
 
+    let res: AnedyaDeleteKeyRespInterface = {};
+
+    // Error handling
     if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
+      res.isSuccess = false;
+      switch (response.status) {
+        case 404:
+          res.errorCode = AnedyaError.HttpRequestError;
+          res.reasonCode = "HttpError::404";
+          break;
+        default:
+          const responseData: _AnedyaDeleteKeyRespInterface =
+            await response.json();
+          res.reasonCode = responseData.reasonCode;
+          switch (responseData.reasonCode) {
+            case "vs::keynotfound":
+              res.errorCode = AnedyaError.keyNotFound;
+              break;
+            default:
+              res.errorCode = AnedyaError.Unknown;
+              break;
+          }
+          break;
+      }
+      return res;
     }
 
     const responseData: _AnedyaDeleteKeyRespInterface = await response.json();
     // console.log(responseData);
-    let res: AnedyaDeleteKeyRespInterface = {};
     res.isSuccess = responseData.success;
+    if(res.isSuccess) {
+      res.errorCode = AnedyaError.Success;
+    }else{
+      res.errorCode = AnedyaError.Failure;
+    }
     res.reasonCode = responseData.reasonCode;
     return res;
   } catch (error) {

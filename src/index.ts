@@ -32,6 +32,8 @@ import{
   AnedyaDataType,
 }from "./anedya_constant"
 
+import { AnedyaError } from "./errors";
+
 import {getAnedyaErrorMessage} from "./utility";
 
 
@@ -58,6 +60,7 @@ export {
   AnedyaSetKeyResponse,
   AnedyaGetKeyRespInterface,
   AnedyaGetKeyResponse,
+  AnedyaError,
 };
 
 

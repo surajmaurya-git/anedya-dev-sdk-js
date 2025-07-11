@@ -31,7 +31,9 @@ export interface AnedyaGetDataBetweenReqInterface {
 /**
  * Request object for fetching data.
  */
-export class AnedyaGetDataBetweenRequest implements AnedyaGetDataBetweenReqInterface {
+export class AnedyaGetDataBetweenRequest
+  implements AnedyaGetDataBetweenReqInterface
+{
   constructor(
     public variable: string,
     public from: number,
@@ -67,7 +69,9 @@ export interface AnedyaGetDataBetweenRespInterface {
 /**
  * Response object for fetching data.
  */
-export class AnedyaGetDataBetweenResponse implements AnedyaGetDataBetweenRespInterface {
+export class AnedyaGetDataBetweenResponse
+  implements AnedyaGetDataBetweenRespInterface
+{
   constructor(
     public isSuccess: boolean = false,
     public reasonCode: string,
@@ -87,9 +91,7 @@ export interface AnedyaLatestDataRespInterface {
   reasonCode?: string;
 }
 
-export class AnedyaLatestDataResponse
-  implements AnedyaLatestDataRespInterface
-{
+export class AnedyaLatestDataResponse implements AnedyaLatestDataRespInterface {
   constructor(
     public isSuccess: boolean = false,
     public isDataAvailable: boolean = false,
@@ -250,13 +252,11 @@ export class AnedyaDeleteKeyRequest implements AnedyaDeleteKeyReqInterface {
 export interface AnedyaDeleteKeyRespInterface {
   isSuccess: boolean;
   reasonCode: string;
+  errorCode: number;
 }
 
 export class AnedyaDeleteKeyResponse implements AnedyaDeleteKeyRespInterface {
-  constructor(public isSuccess: boolean, public reasonCode: string) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
-  }
+  constructor(public isSuccess: boolean, public reasonCode: string , public errorCode: number) {}
 }
 
 // ---------------- Value Store Scan ----------------
@@ -274,7 +274,9 @@ export interface AnedyaScanValueStoreReqInterface {
   offset: number;
 }
 
-export class AnedyaScanValueStoreRequest implements AnedyaScanValueStoreReqInterface {
+export class AnedyaScanValueStoreRequest
+  implements AnedyaScanValueStoreReqInterface
+{
   constructor(
     public filter: {
       namespace: {
@@ -287,12 +289,14 @@ export class AnedyaScanValueStoreRequest implements AnedyaScanValueStoreReqInter
     public limit: number,
     public offset: number
   ) {
-    if (this.filter.namespace.scope !== "global" && this.filter.namespace.scope !== "node") {
+    if (
+      this.filter.namespace.scope !== "global" &&
+      this.filter.namespace.scope !== "node"
+    ) {
       throw new Error(
         "Invalid namespace scope. It should be either 'global' or 'node'."
       );
     }
-
   }
 }
 
@@ -305,8 +309,9 @@ export interface AnedyaScanValueStoreRespInterface {
   next: number;
 }
 
-
-export class AnedyaScanValueStoreResponse implements AnedyaScanValueStoreRespInterface {
+export class AnedyaScanValueStoreResponse
+  implements AnedyaScanValueStoreRespInterface
+{
   constructor(
     public isSuccess: boolean,
     public reasonCode: string,
@@ -332,7 +337,9 @@ export interface AnedyaDeviceStatusRespInterface {
   data: any;
 }
 
-export class AnedyaDeviceStatusResponse implements AnedyaDeviceStatusRespInterface {
+export class AnedyaDeviceStatusResponse
+  implements AnedyaDeviceStatusRespInterface
+{
   constructor(
     public isSuccess: boolean,
     public reasonCode: string,

@@ -1,6 +1,8 @@
 export const AnedyaError = {
-  SUCCESS: 0,
-  FAILED: 1,
-  Timeout: 2,
-  Unknown: 3,
+  Success: -1,
+  Unknown: 0,
+  Failure: 1,
+  HttpRequestError: 3,
+  HttpRequestTimeout: 4,
+  keyNotFound: 5,
 } as const;

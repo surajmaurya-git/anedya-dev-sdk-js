@@ -2,13 +2,19 @@ import {
   Anedya,
   AnedyaGetDataBetweenRequest,
   AnedyaGetDataBetweenResponse,
+  AnedyaLatestDataResponse,
   AnedyaSetKeyRequest,
   AnedyaGetKeyRequest,
   AnedyaScope,
   AnedyaDataType,
+  AnedyaError,
   getAnedyaErrorMessage,
   AnedyaScanValueStoreResponse,
-  AnedyaScanValueStoreRequest
+  AnedyaScanValueStoreRequest,
+  AnedyaSetKeyResponse,
+  AnedyaGetKeyResponse,
+  AnedyaDeleteKeyResponse,
+  AnedyaDeviceStatusResponse,
 } from "../dist/index.mjs";
 
 // Configuration Constants
@@ -25,7 +31,7 @@ const connect_config = anedya.NewConfig(tokenId, token, testMode);
 const client = anedya.NewClient(connect_config);
 const node_1 = anedya.NewNode(client, NodeId);
 
-// Function to get Node ID
+// Example function to get Node ID
 async function getNodeId() {
   try {
     const nodeId = node_1.getNodeId();
@@ -35,48 +41,46 @@ async function getNodeId() {
   }
 }
 
-// Function to get Data
+// Example function to access data from the Anedya platform
 async function getData() {
   try {
     const currentTime = Math.floor(Date.now()); //time in milliseconds
-
-    const delayed_24_hours = currentTime - 86400 * 1000;
-    const getData_req = new AnedyaGetDataBetweenRequest(
+    const twentyFourHoursDelayedTime = currentTime - 86400 * 1000;
+    const req = new AnedyaGetDataBetweenRequest(
       variableIdentifier,
-      delayed_24_hours,
+      twentyFourHoursDelayedTime,
       currentTime,
       10
     );
-    let getData_resp = new AnedyaGetDataBetweenResponse();
-
-    // const res = await node_1.getData(getData_req);
-    getData_resp = await node_1.getDataBetween(getData_req);
-    if (getData_resp.isSuccess) {
-      if (getData_resp.isDataAvailable) {
-        console.log("Data:", getData_resp.data);
+    let res = new AnedyaGetDataBetweenResponse();
+    res = await node_1.getDataBetween(req);
+    if (res.isSuccess) {
+      if (res.isDataAvailable) {
+        console.log("Data:", res.data);
       } else {
         console.log("No data available in requested timestamp!!");
       }
     } else {
-      console.error("Error fetching data:", getData_resp.error);
+      console.error("Error fetching data:", res.error);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 }
 
-// Function to get Latest Data
+// Example function to get the latest data
 async function getLatestData() {
   try {
-    const getLatestData_resp = await node_1.getLatest(variableIdentifier);
-    if (getLatestData_resp.isSuccess) {
-      if (getLatestData_resp.isDataAvailable) {
-        console.log("Latest Data:", getLatestData_resp.data);
+    let res = new AnedyaLatestDataResponse();
+    res = await node_1.getLatest(variableIdentifier);
+    if (res.isSuccess) {
+      if (res.isDataAvailable) {
+        console.log("Latest Data:", res.data);
       } else {
         console.log("No latest data available!");
       }
     } else {
-      console.error("Error fetching latest data:", getLatestData_resp.error);
+      console.error("Error fetching latest data:", res.error);
     }
   } catch (error) {
     console.error("Error fetching latest data:", error);
@@ -85,17 +89,18 @@ async function getLatestData() {
 
 async function setKey() {
   try {
-    let setKeyConfig = new AnedyaSetKeyRequest(
+    let req = new AnedyaSetKeyRequest(
       { scope: AnedyaScope.NODE },
       "temperature",
       30,
       AnedyaDataType.FLOAT
     );
-    const setKey_resp = await node_1.setKey(setKeyConfig);
-    if (setKey_resp.isSuccess) {
+    let res = new AnedyaSetKeyResponse();
+    res = await node_1.setKey(req);
+    if (res.isSuccess) {
       console.log("Key set successfully!");
     } else {
-      console.error("Error setting key:", setKey_resp);
+      console.error("Error setting key:", res);
     }
   } catch (error) {
     console.error("Error setting key 2:", error);
@@ -104,15 +109,13 @@ async function setKey() {
 
 async function getKey() {
   try {
-    let getKeyConfig = new AnedyaGetKeyRequest(
-      { scope: "node" },
-      "temperature"
-    );
-    const getKey_resp = await node_1.getKey(getKeyConfig);
-    if (getKey_resp.isSuccess) {
+    let req = new AnedyaGetKeyRequest({ scope: "node" }, "temperature");
+    let res = new AnedyaGetKeyResponse();
+    res = await node_1.getKey(req);
+    if (res.isSuccess) {
       console.log("Key fetched successfully!");
     } else {
-      console.error("Error fetching key:", getKey_resp);
+      console.error("Error fetching key:", res);
     }
   } catch (error) {
     console.error("Error fetching key 2:", error);
@@ -121,15 +124,13 @@ async function getKey() {
 
 async function deleteKey() {
   try {
-    let deleteKeyConfig = new AnedyaGetKeyRequest(
-      { scope: "node" },
-      "temperature"
-    );
-    const deleteKey_resp = await node_1.deleteKey(deleteKeyConfig);
-    if (deleteKey_resp.isSuccess) {
+    let req = new AnedyaGetKeyRequest({ scope: "node" }, "temperature");
+    let res = new AnedyaDeleteKeyResponse();
+    res = await node_1.deleteKey(req);
+    if (res.errorCode===AnedyaError.Success) {
       console.log("Key deleted successfully!");
     } else {
-      console.error("Error deleting key:", deleteKey_resp);
+      console.error("Error deleting key:", getAnedyaErrorMessage(res.errorCode));
     }
   } catch (error) {
     console.error("Error deleting key 2:", error);
@@ -138,19 +139,20 @@ async function deleteKey() {
 
 async function scanValueStore() {
   try {
-    let scanValueStoreConfig = new AnedyaScanValueStoreRequest(
+    let req = new AnedyaScanValueStoreRequest(
       { namespace: { scope: AnedyaScope.NODE } },
       "namespace",
       "asc",
       10,
       0
     );
-    const scanValueStore_resp = await node_1.scanValueStore(scanValueStoreConfig);
-    console.log(scanValueStore_resp);
-    if (scanValueStore_resp.isSuccess) {
+    let res=new AnedyaScanValueStoreResponse();
+    res = await node_1.scanValueStore(req);
+    console.log(res);
+    if (res.isSuccess) {
       console.log("Value Store scanned successfully!");
     } else {
-      console.error("Error scanning Value Store:", scanValueStore_resp);
+      console.error("Error scanning Value Store:", res);
     }
   } catch (error) {
     console.error("Error scanning Value Store 2:", error);
@@ -160,8 +162,9 @@ async function scanValueStore() {
 // Functionn to get device status
 async function getDeviceStatus() {
   try {
-    const deviceStatus = await node_1.deviceStatus(10);
-    console.log("Device Status:", deviceStatus);
+    let res=new AnedyaDeviceStatusResponse();
+    res = await node_1.deviceStatus(10);
+    console.log("Device Status:", res);
   } catch (error) {
     console.error("Error getting Device Status:", error);
   }
@@ -170,11 +173,11 @@ async function getDeviceStatus() {
 // Execute functions
 (async () => {
   await getNodeId();
-  await getData();
+  // await getData();
   // await getLatestData();
   // await setKey();
   // await getKey();
-  // // await deleteKey();
+  await deleteKey();
   // await scanValueStore();
   // await getDeviceStatus();
 })();
