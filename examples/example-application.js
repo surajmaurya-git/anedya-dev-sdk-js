@@ -23,11 +23,10 @@ const token =
   "A8jmY8FwfCk2vlg3sGWNpzvVKMZn2E0ZKIGJKwTsioB4nlVNU50PBAObMrjfy8Gc";
 const NodeId = "0197ef38-7112-77cf-83a1-78317686ade1";
 const variableIdentifier = "temperature";
-const testMode = true; // Use sandbox for testing
 
 // Initialize Anedya Client
 const anedya = new Anedya();
-const connect_config = anedya.NewConfig(tokenId, token, testMode);
+const connect_config = anedya.NewConfig(tokenId, token);
 const client = anedya.NewClient(connect_config);
 const node_1 = anedya.NewNode(client, NodeId);
 

@@ -4,6 +4,7 @@
 import {
   AnedyaGetDataBetweenReqInterface,
   AnedyaGetDataBetweenRespInterface,
+  AnedyaGetDataBetweenResponse,
   AnedyaLatestDataRespInterface,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
@@ -61,43 +62,55 @@ export const getData = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
+    let res: AnedyaGetDataBetweenRespInterface = {
+      isSuccess: false,
+      error: {
+        errorMessage: "",
+        reasonCode: "",
+      },
+      isDataAvailable: false,
+      data: null,
+      count: 0,
+      startTime: 0,
+      endTime: 0,
+    };
+    try {
+      let responseData: _AnedyaGetDataRespInterface = await response.json();
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      res.isDataAvailable = false;
+      res.data = null;
 
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
-    }
-
-    const responseData: _AnedyaGetDataRespInterface = await response.json();
-    let res: AnedyaGetDataBetweenRespInterface = {};
-
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    res.isDataAvailable = false;
-    res.data = null;
-
-    if (responseData.success) {
-      let data: any = responseData.data;
-      if (data == undefined || data == null || Object.keys(data).length === 0) {
-        res.isDataAvailable = false;
-      } else if (nodes.length === 1) {
-        data = data[nodes.toString()];
-        res.data = data;
-        res.isDataAvailable = true;
-      } else {
-        res.data = data;
-        res.isDataAvailable = true;
+      if (responseData.success) {
+        let data: any = responseData.data;
+        if (
+          data == undefined ||
+          data == null ||
+          Object.keys(data).length === 0
+        ) {
+          res.isDataAvailable = false;
+        } else if (nodes.length === 1) {
+          data = data[nodes.toString()];
+          res.data = data;
+          res.isDataAvailable = true;
+        } else {
+          res.data = data;
+          res.isDataAvailable = true;
+        }
       }
+      res.count = responseData.count;
+      res.startTime = responseData.startTime;
+      res.endTime = responseData.endTime;
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.reasonCode= response.status.toString();
+      res.error.errorMessage = response.statusText;
+      return res;
     }
-    res.count = responseData.count;
-    res.startTime = responseData.startTime;
-    res.endTime = responseData.endTime;
-    return res;
   } catch (error) {
-    console.error("Error during fetch operation:", error);
+    console.error("Error during Get data request:", error);
     throw error;
   }
 };

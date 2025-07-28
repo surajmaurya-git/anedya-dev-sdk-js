@@ -4,9 +4,11 @@
  * and requests for the Anedya API.
  *
  */
-import { _ITimeSeriesData } from "./common";
+import { _ITimeSeriesData, _errInterface } from "./common";
 
 // ============================== Generic Response Handling ==============================
+
+
 export interface AnedyaGenericResponseInterface {
   isSuccess: boolean;
   reasonCode: string;
@@ -59,7 +61,7 @@ export class AnedyaGetDataBetweenRequest
 
 export interface AnedyaGetDataBetweenRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
+  error: _errInterface;
   isDataAvailable: boolean;
   data: _ITimeSeriesData | null;
   count: number;
@@ -74,13 +76,21 @@ export class AnedyaGetDataBetweenResponse
 {
   constructor(
     public isSuccess: boolean = false,
-    public reasonCode: string,
+    public error: _errInterface,
     public isDataAvailable: boolean = false,
     public data: _ITimeSeriesData | null,
     public count: number,
     public startTime: number,
     public endTime: number
-  ) {}
+  ) {
+    this.isSuccess = isSuccess;
+    this.error = error;
+    this.isDataAvailable = isDataAvailable;
+    this.data = data;
+    this.count = count;
+    this.startTime = startTime;
+    this.endTime = endTime;
+  }
 }
 
 // ----------------------------- Get Latest Data -------------------------------------------
@@ -144,6 +154,7 @@ export class AnedyaSetKeyRequest implements AnedyaSetKeyRequestInterface {
     }
   }
 }
+
 export interface AnedyaSetKeyRespInterface {
   isSuccess: boolean;
   reasonCode: string;

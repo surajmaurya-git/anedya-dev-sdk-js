@@ -12,3 +12,9 @@ export interface IConfigHeaders {
 export interface _ITimeSeriesData {
   [key: string]: object[]; // Adjust `object` to the exact type of elements in the array if possible
 }
+
+
+export interface _errInterface{
+  errorMessage: string
+  reasonCode: string
+}
