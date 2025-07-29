@@ -96,22 +96,22 @@ export class AnedyaGetDataBetweenResponse
 // ----------------------------- Get Latest Data -------------------------------------------
 export interface AnedyaLatestDataRespInterface {
   isSuccess?: boolean;
+  error: _errInterface;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
-  reasonCode?: string;
 }
 
 export class AnedyaLatestDataResponse implements AnedyaLatestDataRespInterface {
   constructor(
     public isSuccess: boolean = false,
+    public error: _errInterface,
     public isDataAvailable: boolean = false,
     public data: _ITimeSeriesData | null,
-    public reasonCode: string
   ) {
     this.isSuccess = isSuccess;
+    this.error = error;
     this.isDataAvailable = isDataAvailable;
     this.data = data;
-    this.reasonCode = reasonCode;
   }
 }
 

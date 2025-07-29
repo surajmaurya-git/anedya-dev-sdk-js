@@ -105,7 +105,7 @@ export const getData = async (
       return res;
     } catch (error) {
       res.isSuccess = false;
-      res.error.reasonCode= response.status.toString();
+      res.error.reasonCode = response.status.toString();
       res.error.errorMessage = response.statusText;
       return res;
     }
@@ -159,39 +159,50 @@ export const fetchLatestData = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
+    let res: AnedyaLatestDataRespInterface = {
+      isSuccess: false,
+      error: {
+        errorMessage: "",
+        reasonCode: "",
+      },
+      isDataAvailable: false,
+      data: null,
+    };
 
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
-    }
-
-    const responseData: _AnedyaGetLatestDataRespInterface =
-      await response.json();
-    let res: AnedyaLatestDataRespInterface = {};
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    res.isDataAvailable = false;
-    res.data = null;
-    if (responseData.success) {
-      let data: any = responseData.data;
-      if (data == undefined || data == null || Object.keys(data).length === 0) {
-        res.isDataAvailable = false;
-      } else if (nodes.length === 1) {
-        data = data[nodes.toString()];
-        res.data = data;
-        res.isDataAvailable = true;
-      } else {
-        res.data = data;
-        res.isDataAvailable = true;
+    try {
+      const responseData: _AnedyaGetLatestDataRespInterface =
+        await response.json();
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      res.isDataAvailable = false;
+      res.data = null;
+      if (responseData.success) {
+        let data: any = responseData.data;
+        if (
+          data == undefined ||
+          data == null ||
+          Object.keys(data).length === 0
+        ) {
+          res.isDataAvailable = false;
+        } else if (nodes.length === 1) {
+          data = data[nodes.toString()];
+          res.data = data;
+          res.isDataAvailable = true;
+        } else {
+          res.data = data;
+          res.isDataAvailable = true;
+        }
       }
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.reasonCode = response.status.toString();
+      res.error.errorMessage = response.statusText;
+      return res;
     }
-    return res;
   } catch (error) {
-    console.error("Error during fetch operation:", error);
+    console.error("Error during get latest data request:", error);
     throw error;
   }
 };
