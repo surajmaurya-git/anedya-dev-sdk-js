@@ -8,7 +8,6 @@ import { _ITimeSeriesData, _errInterface } from "./common";
 
 // ============================== Generic Response Handling ==============================
 
-
 export interface AnedyaGenericResponseInterface {
   isSuccess: boolean;
   reasonCode: string;
@@ -74,22 +73,21 @@ export interface AnedyaGetDataBetweenRespInterface {
 export class AnedyaGetDataBetweenResponse
   implements AnedyaGetDataBetweenRespInterface
 {
-  constructor(
-    public isSuccess: boolean = false,
-    public error: _errInterface,
-    public isDataAvailable: boolean = false,
-    public data: _ITimeSeriesData | null,
-    public count: number,
-    public startTime: number,
-    public endTime: number
-  ) {
-    this.isSuccess = isSuccess;
-    this.error = error;
-    this.isDataAvailable = isDataAvailable;
-    this.data = data;
-    this.count = count;
-    this.startTime = startTime;
-    this.endTime = endTime;
+  isSuccess: boolean;
+  error: _errInterface;
+  isDataAvailable: boolean;
+  data: _ITimeSeriesData | null;
+  count: number;
+  startTime: number;
+  endTime: number;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
+    this.isDataAvailable = false;
+    this.data = null;
+    this.count = 0;
+    this.startTime = 0;
+    this.endTime = 0;
   }
 }
 
@@ -106,7 +104,7 @@ export class AnedyaLatestDataResponse implements AnedyaLatestDataRespInterface {
     public isSuccess: boolean = false,
     public error: _errInterface,
     public isDataAvailable: boolean = false,
-    public data: _ITimeSeriesData | null,
+    public data: _ITimeSeriesData | null
   ) {
     this.isSuccess = isSuccess;
     this.error = error;
@@ -157,13 +155,15 @@ export class AnedyaSetKeyRequest implements AnedyaSetKeyRequestInterface {
 
 export interface AnedyaSetKeyRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
+  error: _errInterface;
 }
 
 export class AnedyaSetKeyResponse implements AnedyaSetKeyRespInterface {
-  constructor(public isSuccess: boolean, public reasonCode: string) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
+  isSuccess: boolean;
+  error: _errInterface;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
   }
 }
 
@@ -194,7 +194,7 @@ export class AnedyaGetKeyRequest implements AnedyaGetKeyReqInterface {
 
 export interface AnedyaGetKeyRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
+  error: _errInterface;
   namespace: {
     scope: string;
     id: string;
@@ -208,29 +208,30 @@ export interface AnedyaGetKeyRespInterface {
 }
 
 export class AnedyaGetKeyResponse implements AnedyaGetKeyRespInterface {
+  isSuccess: boolean;
+  error: _errInterface;
+  namespace: {
+    scope: string;
+    id: string;
+  };
+  key: string;
+  value: string | number | boolean| any;
+  type: string;
+  size: number;
+  modified: number;
+  created: number;
   constructor(
-    public isSuccess: boolean,
-    public reasonCode: string,
-    public namespace: {
-      scope: string;
-      id: string;
-    },
-    public key: string,
-    public value: string | number | boolean,
-    public type: string,
-    public size: number,
-    public modified: number,
-    public created: number
+
   ) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
-    this.namespace = namespace;
-    this.key = key;
-    this.value = value;
-    this.type = type;
-    this.size = size;
-    this.modified = modified;
-    this.created = created;
+    this.isSuccess = false;
+    this.error = {errorMessage: "", reasonCode: ""};
+    this.namespace = {scope: "", id: ""};
+    this.key = "";
+    this.value = undefined;
+    this.type = "";
+    this.size = 0;
+    this.modified = 0;
+    this.created = 0;
   }
 }
 
@@ -262,12 +263,16 @@ export class AnedyaDeleteKeyRequest implements AnedyaDeleteKeyReqInterface {
 
 export interface AnedyaDeleteKeyRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
-  errorCode: number;
+  error: _errInterface;
 }
 
 export class AnedyaDeleteKeyResponse implements AnedyaDeleteKeyRespInterface {
-  constructor(public isSuccess: boolean, public reasonCode: string , public errorCode: number) {}
+  isSuccess: boolean;
+  error: _errInterface;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
+  }
 }
 
 // ---------------- Value Store Scan ----------------
@@ -313,7 +318,7 @@ export class AnedyaScanValueStoreRequest
 
 export interface AnedyaScanValueStoreRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
+  error: _errInterface;
   count: number;
   totalCount: number;
   data: any;
@@ -323,20 +328,19 @@ export interface AnedyaScanValueStoreRespInterface {
 export class AnedyaScanValueStoreResponse
   implements AnedyaScanValueStoreRespInterface
 {
-  constructor(
-    public isSuccess: boolean,
-    public reasonCode: string,
-    public count: number,
-    public totalCount: number,
-    public data: any,
-    public next: number
-  ) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
-    this.count = count;
-    this.totalCount = totalCount;
-    this.data = data;
-    this.next = next;
+  isSuccess: boolean;
+  error: _errInterface;
+  count: number;
+  totalCount: number;
+  data: any;
+  next: number;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
+    this.count = 0;
+    this.totalCount = 0;
+    this.data = undefined;
+    this.next = 0;
   }
 }
 

@@ -10,6 +10,10 @@ import {
   AnedyaDeleteKeyReqInterface,
   AnedyaScanValueStoreReqInterface,
   AnedyaScanValueStoreRespInterface,
+  AnedyaDeleteKeyResponse,
+  AnedyaScanValueStoreResponse,
+  AnedyaSetKeyResponse,
+  AnedyaGetKeyResponse,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders } from "../common";
@@ -71,22 +75,21 @@ export const setKey = async (
       body: JSON.stringify(requestData),
     });
 
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
+    let res: AnedyaSetKeyRespInterface = new AnedyaSetKeyResponse();
+    try {
+      const responseData: _AnedyaSetKeyRespInterface = await response.json();
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.errorMessage = response.statusText;
+      res.error.reasonCode = response.status.toString();
+      return res;
     }
-
-    const responseData: _AnedyaSetKeyRespInterface = await response.json();
-    let res: AnedyaSetKeyRespInterface = {};
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    return res;
   } catch (error) {
-    console.error("Error during fetch operation:", error);
+    console.error("Error during set key: ", error);
     throw error;
   }
 };
@@ -154,31 +157,30 @@ export const getKey = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
+    let res: AnedyaGetKeyRespInterface = new AnedyaGetKeyResponse();
 
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
+    try {
+      const responseData: _AnedyaGetKeyRespInterface = await response.json();
+      console.log(responseData);
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      res.namespace = responseData.namespace;
+      res.key = responseData.key;
+      res.value = responseData.value;
+      res.type = responseData.type;
+      res.size = responseData.size;
+      res.modified = responseData.modified;
+      res.created = responseData.created;
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.errorMessage = response.statusText;
+      res.error.reasonCode = response.status.toString();
+      return res;
     }
-
-    const responseData: _AnedyaGetKeyRespInterface = await response.json();
-    // console.log(responseData);
-    let res: AnedyaGetKeyRespInterface = {};
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    res.namespace = responseData.namespace;
-    res.key = responseData.key;
-    res.value = responseData.value;
-    res.type = responseData.type;
-    res.size = responseData.size;
-    res.modified = responseData.modified;
-    res.created = responseData.created;
-    return res;
   } catch (error) {
-    console.error("Error during fetch operation:", error);
+    console.error("Error during get key request: ", error);
     throw error;
   }
 };
@@ -237,43 +239,20 @@ export const deleteKey = async (
       body: JSON.stringify(requestData),
     });
 
-    let res: AnedyaDeleteKeyRespInterface = {};
-
-    // Error handling
-    if (!response.ok) {
+    let res: AnedyaDeleteKeyRespInterface = new AnedyaDeleteKeyResponse();
+    try {
+      const responseData: _AnedyaDeleteKeyRespInterface = await response.json();
+      // console.log(responseData);
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      return res;
+    } catch (error) {
       res.isSuccess = false;
-      switch (response.status) {
-        case 404:
-          res.errorCode = AnedyaError.HttpRequestError;
-          res.reasonCode = "HttpError::404";
-          break;
-        default:
-          const responseData: _AnedyaDeleteKeyRespInterface =
-            await response.json();
-          res.reasonCode = responseData.reasonCode;
-          switch (responseData.reasonCode) {
-            case "vs::keynotfound":
-              res.errorCode = AnedyaError.keyNotFound;
-              break;
-            default:
-              res.errorCode = AnedyaError.Unknown;
-              break;
-          }
-          break;
-      }
+      res.error.errorMessage = response.statusText;
+      res.error.reasonCode = response.status.toString();
       return res;
     }
-
-    const responseData: _AnedyaDeleteKeyRespInterface = await response.json();
-    // console.log(responseData);
-    res.isSuccess = responseData.success;
-    if(res.isSuccess) {
-      res.errorCode = AnedyaError.Success;
-    }else{
-      res.errorCode = AnedyaError.Failure;
-    }
-    res.reasonCode = responseData.reasonCode;
-    return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);
     throw error;
@@ -342,27 +321,27 @@ export const scanValueStore = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
+    let res: AnedyaScanValueStoreRespInterface =
+      new AnedyaScanValueStoreResponse();
+    try {
+      const responseData: _AnedyaScanValueStoreRespInterface =
+        await response.json();
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      res.count = responseData.count;
+      res.totalCount = responseData.totalCount;
+      res.data = responseData.data;
+      res.next = responseData.next;
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.errorMessage = response.statusText;
+      res.error.reasonCode = response.status.toString();
+      return res;
     }
-    const responseData: _AnedyaScanValueStoreRespInterface =
-      await response.json();
-    let res: AnedyaScanValueStoreRespInterface = {};
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    res.count = responseData.count;
-    res.totalCount = responseData.totalCount;
-    res.data = responseData.data;
-    res.next = responseData.next;
-    return res;
   } catch (error) {
-    console.error("Error during fetch operation:", error);
+    console.error("Error during scan vs operation: ", error);
     throw error;
   }
 };
