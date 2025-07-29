@@ -14,7 +14,6 @@ export class NewConfig implements INewConfig {
   token: string;
   baseUrl:string;
 
-
   constructor(tokenId: string, token: string, testMode: boolean=false) {
 
     if (!tokenId || tokenId.trim() === '') {

@@ -6,20 +6,6 @@
  */
 import { _ITimeSeriesData, _errInterface } from "./common";
 
-// ============================== Generic Response Handling ==============================
-
-export interface AnedyaGenericResponseInterface {
-  isSuccess: boolean;
-  reasonCode: string;
-}
-
-export class Anedya_Generic_Resp_Obj implements AnedyaGenericResponseInterface {
-  constructor(public isSuccess: boolean, public reasonCode: string) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
-  }
-}
-
 // ============================== Data Access ==============================
 // ------------ Get Data ------------
 export interface AnedyaGetDataBetweenReqInterface {
@@ -100,16 +86,15 @@ export interface AnedyaLatestDataRespInterface {
 }
 
 export class AnedyaLatestDataResponse implements AnedyaLatestDataRespInterface {
-  constructor(
-    public isSuccess: boolean = false,
-    public error: _errInterface,
-    public isDataAvailable: boolean = false,
-    public data: _ITimeSeriesData | null
-  ) {
-    this.isSuccess = isSuccess;
-    this.error = error;
-    this.isDataAvailable = isDataAvailable;
-    this.data = data;
+  isSuccess?: boolean;
+  error: _errInterface;
+  isDataAvailable?: boolean;
+  data?: _ITimeSeriesData | null;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
+    this.isDataAvailable = false;
+    this.data = null;
   }
 }
 
@@ -215,17 +200,15 @@ export class AnedyaGetKeyResponse implements AnedyaGetKeyRespInterface {
     id: string;
   };
   key: string;
-  value: string | number | boolean| any;
+  value: string | number | boolean | any;
   type: string;
   size: number;
   modified: number;
   created: number;
-  constructor(
-
-  ) {
+  constructor() {
     this.isSuccess = false;
-    this.error = {errorMessage: "", reasonCode: ""};
-    this.namespace = {scope: "", id: ""};
+    this.error = { errorMessage: "", reasonCode: "" };
+    this.namespace = { scope: "", id: "" };
     this.key = "";
     this.value = undefined;
     this.type = "";
@@ -348,20 +331,19 @@ export class AnedyaScanValueStoreResponse
 
 export interface AnedyaDeviceStatusRespInterface {
   isSuccess: boolean;
-  reasonCode: string;
+  error: _errInterface;
   data: any;
 }
 
 export class AnedyaDeviceStatusResponse
   implements AnedyaDeviceStatusRespInterface
 {
-  constructor(
-    public isSuccess: boolean,
-    public reasonCode: string,
-    public data: any
-  ) {
-    this.isSuccess = isSuccess;
-    this.reasonCode = reasonCode;
-    this.data = data;
+  isSuccess: boolean;
+  error: _errInterface;
+  data: any;
+  constructor() {
+    this.isSuccess = false;
+    this.error = { errorMessage: "", reasonCode: "" };
+    this.data = undefined;
   }
 }

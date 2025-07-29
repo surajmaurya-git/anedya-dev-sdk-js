@@ -1,7 +1,10 @@
 import { Anedya } from "../anedya";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders } from "../common";
-import { AnedyaDeviceStatusRespInterface } from "../models";
+import {
+  AnedyaDeviceStatusRespInterface,
+  AnedyaDeviceStatusResponse,
+} from "../models";
 
 // ------------------------ Device Status -------------------------
 interface _AnedyaDeviceStatusRespInterface {
@@ -47,31 +50,29 @@ export const deviceStatus = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-
-    if (!response.ok) {
-      console.error(
-        `HTTP error! Status: ${
-          response.status
-        } Response: ${await response.text()}`
-      );
-      return null;
-    }
-
-    const responseData: _AnedyaDeviceStatusRespInterface =
-      await response.json();
-    // console.log(responseData);
-    let res: AnedyaDeviceStatusRespInterface = {};
-    res.isSuccess = responseData.success;
-    res.reasonCode = responseData.reasonCode;
-    if (!res.isSuccess) {
+    let res: AnedyaDeviceStatusRespInterface = new AnedyaDeviceStatusResponse();
+    try {
+      const responseData: _AnedyaDeviceStatusRespInterface =
+        await response.json();
+      // console.log(responseData);
+      res.isSuccess = responseData.success;
+      res.error.errorMessage = responseData.error;
+      res.error.reasonCode = responseData.reasonCode;
+      if (!res.isSuccess) {
+        return res;
+      }
+      if (nodes.length === 1) {
+        res.data = responseData.data[nodes[0]];
+      } else {
+        res.data = responseData.data;
+      }
+      return res;
+    } catch (error) {
+      res.isSuccess = false;
+      res.error.errorMessage = response.statusText;
+      res.error.reasonCode = response.status.toString();
       return res;
     }
-    if (nodes.length === 1) {
-      res.data = responseData.data[nodes[0]];
-    } else {
-      res.data = responseData.data;
-    }
-    return res;
   } catch (error) {
     console.error("Error during fetch operation:", error);
     throw error;

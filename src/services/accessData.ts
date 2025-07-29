@@ -6,6 +6,7 @@ import {
   AnedyaGetDataBetweenRespInterface,
   AnedyaGetDataBetweenResponse,
   AnedyaLatestDataRespInterface,
+  AnedyaLatestDataResponse,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders, _ITimeSeriesData } from "../common";
@@ -62,18 +63,7 @@ export const getData = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-    let res: AnedyaGetDataBetweenRespInterface = {
-      isSuccess: false,
-      error: {
-        errorMessage: "",
-        reasonCode: "",
-      },
-      isDataAvailable: false,
-      data: null,
-      count: 0,
-      startTime: 0,
-      endTime: 0,
-    };
+    let res: AnedyaGetDataBetweenRespInterface = new AnedyaGetDataBetweenResponse();
     try {
       let responseData: _AnedyaGetDataRespInterface = await response.json();
       res.isSuccess = responseData.success;
@@ -159,16 +149,7 @@ export const fetchLatestData = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-    let res: AnedyaLatestDataRespInterface = {
-      isSuccess: false,
-      error: {
-        errorMessage: "",
-        reasonCode: "",
-      },
-      isDataAvailable: false,
-      data: null,
-    };
-
+    let res: AnedyaLatestDataRespInterface = new AnedyaLatestDataResponse();
     try {
       const responseData: _AnedyaGetLatestDataRespInterface =
         await response.json();
