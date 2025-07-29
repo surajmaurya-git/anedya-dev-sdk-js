@@ -161,7 +161,7 @@ export const getKey = async (
 
     try {
       const responseData: _AnedyaGetKeyRespInterface = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       res.isSuccess = responseData.success;
       res.error.errorMessage = responseData.error;
       res.error.reasonCode = responseData.reasonCode;

@@ -7,21 +7,19 @@ import {
   AnedyaGetKeyRequest,
   AnedyaScope,
   AnedyaDataType,
-  AnedyaError,
-  getAnedyaErrorMessage,
   AnedyaScanValueStoreResponse,
   AnedyaScanValueStoreRequest,
   AnedyaSetKeyResponse,
   AnedyaGetKeyResponse,
   AnedyaDeleteKeyResponse,
   AnedyaDeviceStatusResponse,
-}from "my-first-npm-sdk";
+} from "my-first-npm-sdk";
 
 // Configuration Constants
-const tokenId = "FuaPdaamlVEpbttIEQJK4DSn";
+const tokenId = "";
 const token =
-  "A8jmY8FwfCk2vlg3sGWNpzvVKMZn2E0ZKIGJKwTsioB4nlVNU50PBAObMrjfy8Gc";
-const NodeId = "0197ef38-7112-77cf-83a1-78317686ade1";
+  "";
+const NodeId = "";
 const variableIdentifier = "temperature";
 
 // Initialize Anedya Client
@@ -60,7 +58,7 @@ async function getData() {
         console.log("No data available in requested timestamp!!");
       }
     } else {
-      console.error("Error fetching data:", res.error);
+      console.error("Error fetching data:", res.error.errorMessage);
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -96,6 +94,7 @@ async function setKey() {
     );
     let res = new AnedyaSetKeyResponse();
     res = await node_1.setKey(req);
+
     if (res.isSuccess) {
       console.log("Key set successfully!");
     } else {
@@ -111,6 +110,7 @@ async function getKey() {
     let req = new AnedyaGetKeyRequest({ scope: "node" }, "temperature");
     let res = new AnedyaGetKeyResponse();
     res = await node_1.getKey(req);
+
     if (res.isSuccess) {
       console.log("Key fetched successfully!");
     } else {
@@ -126,10 +126,11 @@ async function deleteKey() {
     let req = new AnedyaGetKeyRequest({ scope: "node" }, "temperature");
     let res = new AnedyaDeleteKeyResponse();
     res = await node_1.deleteKey(req);
-    if (res.errorCode===AnedyaError.Success) {
+
+    if (res.isSuccess) {
       console.log("Key deleted successfully!");
     } else {
-      console.error("Error deleting key:", getAnedyaErrorMessage(res.errorCode));
+      console.error("Error deleting key: ", res.error.errorMessage);
     }
   } catch (error) {
     console.error("Error deleting key 2:", error);
@@ -145,9 +146,9 @@ async function scanValueStore() {
       10,
       0
     );
-    let res=new AnedyaScanValueStoreResponse();
+    let res = new AnedyaScanValueStoreResponse();
     res = await node_1.scanValueStore(req);
-    console.log(res);
+
     if (res.isSuccess) {
       console.log("Value Store scanned successfully!");
     } else {
@@ -158,10 +159,10 @@ async function scanValueStore() {
   }
 }
 
-// Functionn to get device status
+// Function to get device status
 async function getDeviceStatus() {
   try {
-    let res=new AnedyaDeviceStatusResponse();
+    let res = new AnedyaDeviceStatusResponse();
     res = await node_1.deviceStatus(10);
     console.log("Device Status:", res);
   } catch (error) {
