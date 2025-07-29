@@ -1,4 +1,4 @@
-import {
+const {
   Anedya,
   AnedyaGetDataBetweenRequest,
   AnedyaGetDataBetweenResponse,
@@ -13,7 +13,7 @@ import {
   AnedyaGetKeyResponse,
   AnedyaDeleteKeyResponse,
   AnedyaDeviceStatusResponse,
-} from "my-first-npm-sdk";
+} = require("my-first-npm-sdk");
 
 // Configuration Constants
 const tokenId = "";
