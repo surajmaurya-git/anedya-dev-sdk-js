@@ -103,7 +103,7 @@ export class AnedyaLatestDataResponse implements AnedyaLatestDataRespInterface {
 export interface AnedyaSetKeyRequestInterface {
   namespace: {
     scope: "global" | "node";
-    id: string;
+    // id: string;
   };
   key: string;
   value: string | number | boolean;
@@ -114,7 +114,7 @@ export class AnedyaSetKeyRequest implements AnedyaSetKeyRequestInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
-      id: string;
+      // id: string;
     },
     public key: string,
     public value: string | number | boolean,
@@ -156,7 +156,7 @@ export class AnedyaSetKeyResponse implements AnedyaSetKeyRespInterface {
 export interface AnedyaGetKeyReqInterface {
   namespace: {
     scope: "global" | "node";
-    id: string;
+    // id: string;
   };
   key: string;
 }
@@ -165,7 +165,7 @@ export class AnedyaGetKeyRequest implements AnedyaGetKeyReqInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
-      id: string;
+      // id: string;
     },
     public key: string
   ) {
@@ -223,7 +223,7 @@ export class AnedyaGetKeyResponse implements AnedyaGetKeyRespInterface {
 export interface AnedyaDeleteKeyReqInterface {
   namespace: {
     scope: "global" | "node";
-    id: string;
+    // id: string;
   };
   key: string;
 }
@@ -232,7 +232,7 @@ export class AnedyaDeleteKeyRequest implements AnedyaDeleteKeyReqInterface {
   constructor(
     public namespace: {
       scope: "global" | "node";
-      id: string;
+      // id: string;
     },
     public key: string
   ) {
@@ -264,7 +264,7 @@ export interface AnedyaScanValueStoreReqInterface {
   filter: {
     namespace: {
       scope: "global" | "node";
-      id: string;
+      // id: string;
     };
   };
   orderby: "namespace" | "key" | "created";
@@ -280,7 +280,7 @@ export class AnedyaScanValueStoreRequest
     public filter: {
       namespace: {
         scope: "global" | "node";
-        id: string;
+        // id: string;
       };
     },
     public orderby: "namespace" | "key" | "created",
