@@ -28,5 +28,5 @@ const node_1 = anedya.NewNode(client, NodeId);
 
 const getDataReq = new AnedyaGetDataBetweenRequest(variableIdentifier,fromTime,toTime);
 let getData_resp = new AnedyaGetDataBetweenResponse();
-res = await node_1.getData(getDataReq);
+res = await node_1.getDataBetween(getDataReq);
 ```
