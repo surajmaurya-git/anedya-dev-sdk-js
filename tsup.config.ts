@@ -1,13 +1,12 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: {
-    index: "src/index.ts",
-    anedya: "src/anedya.ts",
-    models: "src/models.ts",
-  },
+  entry: ["src/index.ts"],  // Single entry point
   format: ["cjs", "esm"],
   dts: true,
-  sourcemap: true,
+  sourcemap: true, // Add sourcemap for debugging
   clean: true,
+  treeshake: true,          // Remove unused code
+  minify: true,             // Minify output
+  splitting: false,         // Avoid splitting for SDKs
 });
