@@ -1,7 +1,7 @@
 const {
   Anedya,
-  AnedyaGetDataBetweenRequest,
-  AnedyaGetDataBetweenResponse,
+  AnedyaGetDataRequest,
+  AnedyaGetDataResponse,
   AnedyaLatestDataResponse,
   AnedyaSetKeyRequest,
   AnedyaGetKeyRequest,
@@ -16,11 +16,10 @@ const {
 } = require("my-first-npm-sdk");
 
 // Configuration Constants
-const tokenId = "";
-const token =
-  "";
-const NodeId = "";
-const variableIdentifier = "temperature";
+const tokenId = "FkXV7cqeBBZaanrTHHflPeMU";
+const token = "HUhoTpE5vFRtNMxl5UMVjsPaxPYZGhKbPfNPLNJOzc6Pr0udPp1uP7FDv9CZSdA6";
+const NodeId = "0199389b-66e2-72f0-93d1-91d5161451b4";
+const variableIdentifier = "controltemp";
 
 // Initialize Anedya Client
 const anedya = new Anedya();
@@ -43,13 +42,13 @@ async function getData() {
   try {
     const currentTime = Math.floor(Date.now()); //time in milliseconds
     const twentyFourHoursDelayedTime = currentTime - 86400 * 1000;
-    const req = new AnedyaGetDataBetweenRequest(
+    const req = new AnedyaGetDataRequest(
       variableIdentifier,
       twentyFourHoursDelayedTime,
       currentTime,
       10
     );
-    let res = new AnedyaGetDataBetweenResponse();
+    let res = new AnedyaGetDataResponse();
     res = await node_1.getDataBetween(req);
     if (res.isSuccess) {
       if (res.isDataAvailable) {
