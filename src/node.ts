@@ -419,10 +419,3 @@ export class NewNode implements INode {
   }
 }
 
-
-//snapshot, add comments for snapshot -- done 
-//add error timestamp for future -- done 
-//remove interface from names -- done
-//enums
-//pass parametrs directly in functions instead of using interfaces like in get device status -- not needed
-//test for js -- done 
