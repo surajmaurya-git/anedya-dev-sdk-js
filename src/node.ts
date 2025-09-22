@@ -20,7 +20,7 @@ import {
   AnedyaSetKeyRequest,
   AnedyaGetKeyReq,
   AnedyaDeleteKeyReq,
-  AnedyaScanValueStoreReq,
+  AnedyaScanKeysReq,
   AnedyaGetSnapshotReq
 } from "./models";
 import { NewClient } from "./client";
@@ -53,7 +53,7 @@ export interface INode {
   deleteKey(reqConfig: AnedyaDeleteKeyReq): Promise<any>;
 
   /** Scan through the node’s value store with filters */
-  scanKeys(reqConfig: AnedyaScanValueStoreReq): Promise<any>; 
+  scanKeys(reqConfig: AnedyaScanKeysReq): Promise<any>; 
 
   /** Get device status (e.g., last contact timestamp) */
   getDeviceStatus(lastContactThreshold: number): Promise<any>;
@@ -133,7 +133,7 @@ export class NewNode implements INode {
    * @example
    * ```ts
    * const req = new AnedyaGetDataRequest("temperature", Date.now() - 86400000, Date.now(), 100);
-   * const res = await node.getDataBetween(req);
+   * const res = await node.getData(req);
    * if (res.isSuccess && res.isDataAvailable) {
    *   console.log(res.data);
    * }
@@ -158,7 +158,7 @@ export class NewNode implements INode {
    *
    * @example
    * ```ts
-   * const res = await node.getLatest("temperature");
+   * const res = await node.getLatestData("temperature");
    * if (res.isSuccess && res.isDataAvailable) {
    *   console.log("Latest value:", res.data);
    * }
@@ -292,13 +292,13 @@ export class NewNode implements INode {
    * - Namespace must include a scope (`GLOBAL` or `NODE`).
    * - Results can be ordered (`asc` or `desc`) and paginated using limit/offset.
    *
-   * @param {AnedyaScanValueStoreReqInterface} reqConfig - Config including namespace, order, limit, and offset.
+   * @param {AnedyaScanKeysReqInterface} reqConfig - Config including namespace, order, limit, and offset.
    * @returns {Promise<any>} Response containing a list of matching keys.
    *
    * @example
    * ```ts
-   * // Scan all availableitems in the NODE namespace, return first 10 in ascending order
-   * const req = new AnedyaScanValueStoreRequest(
+   * // Scan all available keys in the NODE namespace, return first 10 in ascending order
+   * const req = new AnedyaScanKeysRequest(
    *   { namespace: { scope: AnedyaScope.NODE } },
    *   "namespace", 
    *   "asc",
@@ -306,14 +306,14 @@ export class NewNode implements INode {
    *   0
    * );
    *
-   * const res = await node.scanValueStore(req);
+   * const res = await node.scanKeys(req);
    * if (res.isSuccess && res.data) {
-   *   console.log("Value Store scanned successfully!", res.data);
+   *   console.log("Keys scanned successfully!", res.data);
    * }
    * ```
    */
   async scanKeys(
-    reqConfig: AnedyaScanValueStoreReq
+    reqConfig: AnedyaScanKeysReq
   ): Promise<any> {
     return await scanKeys(
       this.#baseUrl,
@@ -344,7 +344,7 @@ export class NewNode implements INode {
    * @example
    * ```ts
    * // Consider node online if it sent a heartbeat within the last 60 seconds
-   * const res = await node.deviceStatus(60);
+   * const res = await node.getDeviceStatus(60);
    * if (res.isSuccess && res.data) {
    *   const status = res.data[node.getNodeId()];
    *   console.log("Online:", status.online);
@@ -355,7 +355,7 @@ export class NewNode implements INode {
    * @example
    * ```ts
    * // Use a larger window (300 seconds) if your device reports less frequently
-   * const res = await node.deviceStatus(300);
+   * const res = await node.getDeviceStatus(300);
    * ```
    */
   async getDeviceStatus(lastContactThreshold: number): Promise<any> {
@@ -418,4 +418,3 @@ export class NewNode implements INode {
     )
   }
 }
-

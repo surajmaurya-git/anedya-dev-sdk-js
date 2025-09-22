@@ -10,8 +10,8 @@ import {
   AnedyaGetDataReq,
   AnedyaGetDataResp,
   AnedyaGetDataResponse,
-  AnedyaLatestDataResp,
-  AnedyaLatestDataResponse,
+  AnedyaGetLatestDataResp,
+  AnedyaGetLatestDataResponse,
 } from "../models";
 import { anedyaSignature } from "../anedya_signature";
 import { IConfigHeaders, _ITimeSeriesData } from "../common";
@@ -211,7 +211,7 @@ export const fetchLatestData = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-    let res: AnedyaLatestDataResp = new AnedyaLatestDataResponse();
+    let res: AnedyaGetLatestDataResp = new AnedyaGetLatestDataResponse();
     try {
       const responseData: _AnedyaGetLatestDataResp =
         await response.json();

@@ -76,14 +76,14 @@ export class AnedyaGetDataResponse
 }
 
 // ----------------------------- Get Latest Data -------------------------------------------
-export interface AnedyaLatestDataResp {
+export interface AnedyaGetLatestDataResp {
   isSuccess?: boolean;
   error: _errInterface;
   isDataAvailable?: boolean;
   data?: _ITimeSeriesData | null;
 }
 
-export class AnedyaLatestDataResponse implements AnedyaLatestDataResp {
+export class AnedyaGetLatestDataResponse implements AnedyaGetLatestDataResp {
   isSuccess?: boolean;
   error: _errInterface;
   isDataAvailable?: boolean;
@@ -258,7 +258,7 @@ export class AnedyaDeleteKeyResponse implements AnedyaDeleteKeyResp{
 
 // ---------------- Value Store Scan ----------------
 
-export interface AnedyaScanValueStoreReq {
+export interface AnedyaScanKeysReq {
   filter: {
     namespace: {
       scope: "global" | "node";
@@ -271,8 +271,8 @@ export interface AnedyaScanValueStoreReq {
   offset: number;
 }
 
-export class AnedyaScanValueStoreRequest
-  implements AnedyaScanValueStoreReq
+export class AnedyaScanKeysRequest
+  implements AnedyaScanKeysReq
 {
   constructor(
     public filter: {
@@ -297,7 +297,7 @@ export class AnedyaScanValueStoreRequest
   }
 }
 
-export interface AnedyaScanValueStoreResp {
+export interface AnedyaScanKeysResp {
   isSuccess: boolean;
   error: _errInterface;
   count: number;
@@ -306,8 +306,8 @@ export interface AnedyaScanValueStoreResp {
   next: number;
 }
 
-export class AnedyaScanValueStoreResponse
-  implements AnedyaScanValueStoreResp
+export class AnedyaScanKeysResponse
+  implements AnedyaScanKeysResp
 {
   isSuccess: boolean;
   error: _errInterface;

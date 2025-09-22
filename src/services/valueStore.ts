@@ -8,10 +8,10 @@ import {
   AnedyaGetKeyReq,
   AnedyaGetKeyResp,
   AnedyaDeleteKeyReq,
-  AnedyaScanValueStoreReq,
-  AnedyaScanValueStoreResp,
+  AnedyaScanKeysReq,
+  AnedyaScanKeysResp,
   AnedyaDeleteKeyResponse,
-  AnedyaScanValueStoreResponse,
+  AnedyaScanKeysResponse,
   AnedyaSetKeyResponse,
   AnedyaGetKeyResponse,
 } from "../models";
@@ -260,7 +260,7 @@ export const deleteKey = async (
 };
 
 // ------------------------------  Scan Value-Store -----------------------------
-interface _AnedyaScanValueStoreResp {
+interface _AnedyaScanKeysResp {
   success: boolean;
   errorcode: number;
   error: string;
@@ -275,7 +275,7 @@ export const scanKeys = async (
   baseUrl: string,
   configHeaders: IConfigHeaders,
   nodes: string[],
-  reqConfig: AnedyaScanValueStoreReq
+  reqConfig: AnedyaScanKeysReq
 ): Promise<any> => {
   const url = `${baseUrl}/valuestore/scan`;
   let Id;
@@ -321,10 +321,10 @@ export const scanKeys = async (
       headers: reqHeaders,
       body: JSON.stringify(requestData),
     });
-    let res: AnedyaScanValueStoreResp =
-      new AnedyaScanValueStoreResponse();
+    let res: AnedyaScanKeysResp =
+      new AnedyaScanKeysResponse();
     try {
-      const responseData: _AnedyaScanValueStoreResp =
+      const responseData: _AnedyaScanKeysResp =
         await response.json();
       res.isSuccess = responseData.success;
       res.error.errorMessage = responseData.error;
