@@ -381,7 +381,7 @@ export class NewNode implements INode {
    * @param {AnedyaGetSnapshotReq} reqConfig - The snapshot request configuration.
    * @param {number} reqConfig.time - The target timestamp (in UNIX seconds) to query.
    * @param {string} reqConfig.variable - The variable identifier to fetch (e.g., `"temperature"`).
-   * @param {string[]} reqConfig.nodes - The list of node IDs for which to fetch snapshot values.
+
    *
    * @returns {Promise<any>} A promise resolving to the response object containing:
    * - `node` (string): the node ID  
@@ -390,23 +390,13 @@ export class NewNode implements INode {
    *
    * @example
    * ```ts
-   * // Get temperature value for node123 at a specific timestamp
-   * const req = new AnedyaGetSnapshotRequest(1695084912, "temperature", ["node123"]);
+   * // Get temperature value for the node at a specific timestamp
+   * const req = new AnedyaGetSnapshotRequest(1695084912, "temperature");
    * const res = await node.getSnapshot(req);
    * if (res.isSuccess && res.data.length > 0) {
    *   const snapshot = res.data[0];
    *   console.log("Temperature at", new Date(snapshot.timestamp * 1000), "was", snapshot.value);
    * }
-   * ```
-   *
-   * @example
-   * ```ts
-   * // Request snapshots for multiple nodes at the same time
-   * const req = new AnedyaGetSnapshotRequest(1695084912, "humidity", ["node123", "node456"]);
-   * const res = await node.getSnapshot(req);
-   * res.data.forEach((entry) => {
-   *   console.log(entry.node, "had humidity", entry.value, "at", new Date(entry.timestamp * 1000));
-   * });
    * ```
    */
   async getSnapshot(reqConfig: AnedyaGetSnapshotReq): Promise<any> {
