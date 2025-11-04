@@ -1,3 +1,9 @@
+/**
+ * This file contains main entry class for the Anedya SDK.
+ *
+ * @packageDocumentation
+ */
+
 import { NewConfig } from "./config";
 import { NewClient } from "./client";
 import {NewNode} from "./node";

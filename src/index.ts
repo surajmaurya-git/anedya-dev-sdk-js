@@ -1,18 +1,71 @@
-import { Anedya } from "./anedya";
+/**
+ * This is the main entry point for the Anedya SDK. It re-exports all the
+ * necessary components, so that you can easily import and use the SDK in your
+ * application.
+ *
+ *  * @packageDocumentation
+ */
 
+import { Anedya } from "./anedya";
 import {
-  Anedya_AccessData,
-  Anedya_AccessLatestData,
-  Command,
-  COMMAND_TYPE_BINARY,
-  COMMAND_TYPE_STRING,
+  AnedyaGetDataRequest,
+  AnedyaGetDataResponse,
+    AnedyaGetSnapshotRequest,
+    AnedyaGetSnapshotResponse,
+  AnedyaGetDeviceStatusResp,
+  AnedyaGetLatestDataResponse,
+  AnedyaSetKeyRequest,
+  AnedyaSetKeyResp,
+  AnedyaSetKeyResponse,
+  AnedyaGetKeyRequest,
+  AnedyaGetKeyResp,
+  AnedyaGetKeyResponse,
+  AnedyaDeleteKeyRequest,
+  AnedyaScanKeysResponse,
+  AnedyaScanKeysResp,
+  AnedyaScanKeysRequest,
+  AnedyaGetDeviceStatusResponse,
+  AnedyaDeleteKeyResp,
+  AnedyaDeleteKeyResponse,
 } from "./models";
 
+import{
+  AnedyaScope,
+  AnedyaDataType,
+}from "./anedya_constant"
+
+import { AnedyaError } from "./errors";
+
+import {getAnedyaErrorMessage} from "./utility";
+
+
+// Export all the necessary components 
 export {
   Anedya,
-  Anedya_AccessData,
-  Anedya_AccessLatestData,
-  Command,
-  COMMAND_TYPE_STRING,
-  COMMAND_TYPE_BINARY,
+  AnedyaGetDataRequest,
+  AnedyaGetDataResponse,
+  AnedyaGetSnapshotRequest,
+  AnedyaGetSnapshotResponse,
+  AnedyaGetLatestDataResponse,
+  AnedyaSetKeyRequest,
+  AnedyaGetKeyRequest,
+  AnedyaDeleteKeyRequest,
+
+  AnedyaScope,
+  AnedyaDataType,
+  getAnedyaErrorMessage,
+  AnedyaScanKeysResp,
+  AnedyaScanKeysResponse,
+  AnedyaScanKeysRequest,
+  AnedyaGetDeviceStatusResp,
+  AnedyaGetDeviceStatusResponse,
+  AnedyaDeleteKeyResp,
+  AnedyaDeleteKeyResponse,
+  AnedyaSetKeyResp,
+  AnedyaSetKeyResponse,
+  AnedyaGetKeyResp,
+  AnedyaGetKeyResponse,
+  AnedyaError,
 };
+
+
